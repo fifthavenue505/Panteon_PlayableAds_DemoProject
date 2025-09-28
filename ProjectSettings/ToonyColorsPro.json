@@ -1,0 +1,15 @@
+{
+    "AutoNames": true,
+    "SubFolders": true,
+    "OverwriteConfig": false,
+    "LoadAllShaders": false,
+    "CustomOutputPath": "/JMO Assets/Toony Colors Pro/Shaders Generated/",
+    "LastImplementationExportImportPath": "C:/UnityProjects/Panteon_PlayableAds_DemoProject/Panteon_PlayableAds_DemoProject/Assets",
+    "OpenedFoldouts": [],
+    "UseCustomFont": false,
+    "CustomFont": {
+        "instanceID": 0
+    },
+    "CustomFontInitialized": false,
+    "Upgrade_Hybrid1toHybrid2_Done": true
+}

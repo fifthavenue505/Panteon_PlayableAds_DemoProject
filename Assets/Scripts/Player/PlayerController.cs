@@ -1,0 +1,60 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerController : MonoBehaviour
+{
+    [SerializeField] private FixedJoystick joystick;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float rayDistance = 1f;
+    [SerializeField] private LayerMask obstacleMask;
+
+    [SerializeField] private Camera mainCamera;
+
+    private void Awake()
+    {
+        EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Idle);
+    }
+
+    public void HandleMovement()
+    {
+        var dir = GetJoystickDirection();
+        if (!(dir.magnitude > 0.05f)) return;
+
+        dir = dir.normalized;
+
+        var camForward = mainCamera.transform.forward;
+        var camRight   = mainCamera.transform.right;
+
+        camForward.y = 0f;
+        camRight.y   = 0f;
+
+        camForward.Normalize();
+        camRight.Normalize();
+
+        var moveDir = camForward * dir.z + camRight * dir.x;
+
+        if (IsObstacleInFront(moveDir)) return;
+
+        var delta = moveDir * (moveSpeed * Time.deltaTime);
+        transform.position += delta;
+        transform.rotation = Quaternion.LookRotation(moveDir, Vector3.up);
+    }
+    
+    public bool HasMovementInput()
+    {
+        return joystick.Horizontal != 0 || joystick.Vertical != 0;
+    }
+
+    private Vector3 GetJoystickDirection()
+    {
+        return new Vector3(joystick.Horizontal, 0, joystick.Vertical);
+    }
+    
+    private bool IsObstacleInFront(Vector3 moveDir)
+    {
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, moveDir); 
+        return Physics.Raycast(ray, rayDistance, obstacleMask);
+    }
+}
