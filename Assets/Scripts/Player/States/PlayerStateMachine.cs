@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -56,11 +57,11 @@ public class PlayerStateMachine : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.AddHandler<PlayerStateType>(GameEvent.OnPlayerChangeState, OnPlayerChangeState);
+        EventManager.AddHandler(GameEvent.OnPlayerChangeState, (Action<PlayerStateType>)OnPlayerChangeState);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler<PlayerStateType>(GameEvent.OnPlayerChangeState, OnPlayerChangeState);
+        EventManager.RemoveHandler(GameEvent.OnPlayerChangeState, (Action<PlayerStateType>)OnPlayerChangeState);
     }
 }

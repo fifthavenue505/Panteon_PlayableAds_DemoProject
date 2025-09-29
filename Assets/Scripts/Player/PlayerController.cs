@@ -1,15 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private FixedJoystick joystick;
+    [Title("Input")]
+    [SerializeField] private FloatingJoystick joystick;
+    
+    [Title("Movement Settings")]
     [SerializeField] private float moveSpeed = 5f;
+    
+    [Title("Obstacle Detection")]
     [SerializeField] private float rayDistance = 1f;
     [SerializeField] private LayerMask obstacleMask;
-
+    
+    [Title("References")]
     [SerializeField] private Camera mainCamera;
 
     private void Awake()
