@@ -36,7 +36,7 @@ public class StairsController : MonoBehaviour
                     else if (child.TryGetComponent<CustomerStateMachine>(out var customer))
                     {
                         EventManager.Broadcast(GameEvent.OnCustomerChangeState, customer,
-                            CustomerStateType.MovingToSecondLine);
+                            CustomerStateType.MovingToPlaneQueue);
                     }
                 }
 

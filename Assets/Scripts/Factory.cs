@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class Factory
@@ -7,14 +5,18 @@ public static class Factory
     private static Pool<CustomerController> customerPool;
     private static Pool<Money> moneyPool;
     private static Pool<Baggage> baggagePool;
-    
-    public static void Initialize(CustomerController customerPrefab, Money moneyPrefab, Baggage baggagePrefab, Transform parent = null)
+
+    public static void Initialize(
+        CustomerController customerPrefab, Transform customerParent, int customerPoolSize,
+        Money moneyPrefab, Transform moneyParent, int moneyPoolSize,
+        Baggage baggagePrefab, Transform baggageParent, int baggagePoolSize
+    )
     {
-        customerPool = new Pool<CustomerController>(customerPrefab, parent, 6);
-        moneyPool = new Pool<Money>(moneyPrefab, parent, 20);
-        baggagePool = new Pool<Baggage>(baggagePrefab, parent, 6);
+        customerPool = new Pool<CustomerController>(customerPrefab, customerParent, customerPoolSize);
+        moneyPool = new Pool<Money>(moneyPrefab, moneyParent, moneyPoolSize);
+        baggagePool = new Pool<Baggage>(baggagePrefab, baggageParent, baggagePoolSize);
     }
-    
+
     // CUSTOMER
     public static CustomerController CreateCustomer(Vector3 position)
     {

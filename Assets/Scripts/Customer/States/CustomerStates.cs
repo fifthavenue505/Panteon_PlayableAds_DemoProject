@@ -1,162 +1,76 @@
-using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
 using UnityEngine;
-using UnityEngine.AI;
 
-public class CustomerWalkingToFirstLine : CustomerBaseState
+public class MovingToBaggageQueue : CustomerBaseState
 {
-    public CustomerWalkingToFirstLine(CustomerStateMachine customer) : base(customer) {}
+    public MovingToBaggageQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
+        customer.customerController.MoveThroughPositions(CustomerStateType.IdleInBaggageQueue);
     }
 }
 
-public class CustomerIdleInFirstLine : CustomerBaseState
+public class IdleInBaggageQueue : CustomerBaseState
 {
-    public CustomerIdleInFirstLine(CustomerStateMachine customer) : base(customer) { }
-
-    public override void EnterState()
-    {
-    }
-
-    public override void UpdateState()
-    {
-        
-    }
-
-    public override void ExitState()
-    {
-        
-    }
+    public IdleInBaggageQueue(CustomerStateMachine customer) : base(customer) { }
 }
 
-public class CustomerMovingToStairs : CustomerBaseState
+public class MovingToStairs : CustomerBaseState
 {
-    public CustomerMovingToStairs(CustomerStateMachine customer) : base(customer)
-    {
-    }
+    public MovingToStairs(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
         customer.customerController.MoveThroughPositions(CustomerStateType.IdleOnStairs);
     }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
-    }
 }
 
-public class CustomerIdleOnStairs : CustomerBaseState
+public class IdleOnStairs : CustomerBaseState
 {
-    public CustomerIdleOnStairs(CustomerStateMachine customer) : base(customer)
-    {
-        
-    }
+    public IdleOnStairs(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
         CustomerSystemManager.Instance.AttachTrigger.StairStepEnter(customer.gameObject);
     }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
-    }
 }
 
-
-public class CustomerMovingToSecondLine : CustomerBaseState
+public class MovingToPlaneQueue : CustomerBaseState
 {
-    public CustomerMovingToSecondLine(CustomerStateMachine customer) : base(customer)
-    {
-    }
+    public MovingToPlaneQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
-        customer.customerController.MoveThroughPositions(CustomerStateType.WaitingInSecondLine);
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
+        customer.customerController.MoveThroughPositions(CustomerStateType.IdleInPlaneQueue);
     }
 }
 
-public class CustomerWaitingInSecondLine : CustomerBaseState
+public class IdleInPlaneQueue : CustomerBaseState
 {
-    public CustomerWaitingInSecondLine(CustomerStateMachine customer) : base(customer)
-    {
-    }
-
+    public IdleInPlaneQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
-        CustomerSystemManager.Instance.TryAssignCustomerToQueue(customer.customerController, CustomerSystemManager.Instance.PlaneQueueData);
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
+        CustomerSystemManager.Instance.TryAssignCustomerToQueue(customer.customerController, QueueType.Plane);
     }
 }
 
-public class CustomerMovingToPlane : CustomerBaseState
+public class MovingToPlane : CustomerBaseState
 {
-    public CustomerMovingToPlane(CustomerStateMachine customer) : base(customer)
-    {
-    }
+    public MovingToPlane(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
         customer.customerController.MoveThroughPositions(CustomerStateType.Released);
     }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
-    }
 }
 
-public class CustomerReleased : CustomerBaseState
+public class Released : CustomerBaseState
 {
-    public CustomerReleased(CustomerStateMachine customer) : base(customer) {}
+    public Released(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
         Factory.ReleaseCustomer(customer.customerController);
-    }
-
-    public override void UpdateState()
-    {
-    }
-
-    public override void ExitState()
-    {
     }
 }

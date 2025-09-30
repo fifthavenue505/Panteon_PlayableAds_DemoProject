@@ -5,14 +5,14 @@ using UnityEngine;
 
 public enum CustomerStateType
 {
-    WalkingToFirstLine,
-    IdleInFirstLine,
+    MovingToBaggageQueue,
+    IdleInBaggageQueue,
     MovingToStairs,
     IdleOnStairs,
-    MovingToSecondLine,
-    WaitingInSecondLine,
+    MovingToPlaneQueue,
+    IdleInPlaneQueue,
     MovingToPlane,
-    Released,
+    Released
 }
 
 public class CustomerStateMachine : MonoBehaviour
@@ -32,14 +32,14 @@ public class CustomerStateMachine : MonoBehaviour
 
         states = new Dictionary<CustomerStateType, CustomerBaseState>
         {
-            { CustomerStateType.WalkingToFirstLine, new CustomerWalkingToFirstLine(this) },
-            { CustomerStateType.IdleInFirstLine, new CustomerIdleInFirstLine(this) },
-            { CustomerStateType.MovingToStairs, new CustomerMovingToStairs(this) },
-            { CustomerStateType.IdleOnStairs, new CustomerIdleOnStairs(this) },
-            { CustomerStateType.MovingToSecondLine, new CustomerMovingToSecondLine(this) },
-            { CustomerStateType.WaitingInSecondLine, new CustomerWaitingInSecondLine(this) },
-            { CustomerStateType.MovingToPlane, new CustomerMovingToPlane(this) },
-            { CustomerStateType.Released, new CustomerReleased(this) }
+            { CustomerStateType.MovingToBaggageQueue, new MovingToBaggageQueue(this) },
+            { CustomerStateType.IdleInBaggageQueue, new IdleInBaggageQueue(this) },
+            { CustomerStateType.MovingToStairs, new MovingToStairs(this) },
+            { CustomerStateType.IdleOnStairs, new IdleOnStairs(this) },
+            { CustomerStateType.MovingToPlaneQueue, new MovingToPlaneQueue(this) },
+            { CustomerStateType.IdleInPlaneQueue, new IdleInPlaneQueue(this) },
+            { CustomerStateType.MovingToPlane, new MovingToPlane(this) },
+            { CustomerStateType.Released, new Released(this) }
         };
     }
 

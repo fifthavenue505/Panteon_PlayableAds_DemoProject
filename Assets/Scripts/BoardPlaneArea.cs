@@ -1,26 +1,20 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BoardPlaneArea : MonoBehaviour, IInteractable
 {
-    public void InteractEnter(GameObject interactor)
-    {
-    }
+    public void InteractEnter(GameObject interactor) { }
 
     public void InteractStay(GameObject interactor)
     {
-        var nextCustomer = CustomerSystemManager.Instance.GetNextCustomerFromQueue(CustomerSystemManager.Instance.PlaneQueueData);
+        var manager = CustomerSystemManager.Instance;
+        var nextCustomer = manager.GetNextCustomerFromQueue(QueueType.Plane);
         if (nextCustomer == null) return;
 
         var stateMachine = nextCustomer.GetComponent<CustomerStateMachine>();
-        if (stateMachine != null)
-        {
-            EventManager.Broadcast(GameEvent.OnCustomerChangeState, stateMachine, CustomerStateType.MovingToPlane);
-        }
+        if (stateMachine == null) return;
+
+        EventManager.Broadcast(GameEvent.OnCustomerChangeState, stateMachine, CustomerStateType.MovingToPlane);
     }
 
-    public void InteractExit(GameObject interactor)
-    {
-    }
+    public void InteractExit(GameObject interactor) { }
 }
