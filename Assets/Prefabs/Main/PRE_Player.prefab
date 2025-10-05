@@ -453,7 +453,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: 3252224991405807402, guid: d68d4c0204801694b9519efa3fd53e1d, type: 3}
+  m_Mesh: {fileID: 3252224991405807402, guid: 527417e4fe0b1c344a34c483dcba232e, type: 3}
   m_Bones:
   - {fileID: 3957596983198565224}
   - {fileID: 894427019919946839}
@@ -1595,7 +1595,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 421518, guid: c332e4385c333314c9d4da63991781e8, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.141
       objectReference: {fileID: 0}
     - target: {fileID: 421518, guid: c332e4385c333314c9d4da63991781e8, type: 3}
       propertyPath: m_LocalPosition.z

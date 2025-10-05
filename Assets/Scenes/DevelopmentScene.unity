@@ -2292,7 +2292,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8665529280113013998, guid: 080602530fa1bf84f851da38b0d15e34, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.26
+      value: -13.25
       objectReference: {fileID: 0}
     - target: {fileID: 8665529280113013998, guid: 080602530fa1bf84f851da38b0d15e34, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2300,7 +2300,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8665529280113013998, guid: 080602530fa1bf84f851da38b0d15e34, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.13
+      value: 13.47
       objectReference: {fileID: 0}
     - target: {fileID: 8665529280113013998, guid: 080602530fa1bf84f851da38b0d15e34, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5515,7 +5515,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 74
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -5541,8 +5541,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1183289275}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20964812, y: 0.78909206, z: -0.3824156, w: 0.4325966}
-  m_LocalPosition: {x: -94.18569, y: -39.21029, z: 73.80644}
+  m_LocalRotation: {x: 0.20964813, y: 0.789092, z: -0.38241556, w: 0.4325966}
+  m_LocalPosition: {x: -95.17569, y: -39.21029, z: 76.14645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7829,7 +7829,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 2136912572}
   m_Follow: {fileID: 2136912572}
   m_Lens:
-    FieldOfView: 60
+    FieldOfView: 74
     OrthographicSize: 5
     NearClipPlane: 0.3
     FarClipPlane: 1000
@@ -7855,8 +7855,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1917544147}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.20964812, y: 0.78909206, z: -0.3824156, w: 0.4325966}
-  m_LocalPosition: {x: -94.18569, y: -39.21029, z: 73.80644}
+  m_LocalRotation: {x: 0.20964813, y: 0.789092, z: -0.38241556, w: 0.4325966}
+  m_LocalPosition: {x: -95.17569, y: -39.21029, z: 76.14645}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8815,6 +8815,10 @@ PrefabInstance:
     - target: {fileID: 4527698635176145153, guid: 9bf61368990aacc47b71d8073707359d, type: 3}
       propertyPath: m_Name
       value: Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6358117832820179729, guid: 9bf61368990aacc47b71d8073707359d, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6829958725319057787, guid: 9bf61368990aacc47b71d8073707359d, type: 3}
       propertyPath: m_AnchorMax.x
