@@ -24,6 +24,7 @@ public class BoardBaggageArea : InteractableBase
 
         if (nextCustomer == null) return;
 
+        // Trigger tutorial progress event when the maximum number of customers is reached
         if (customerBoarded == maxCustomer)
             EventManager.Broadcast(GameEvent.OnTutorialStepCompleted);
 
@@ -33,6 +34,7 @@ public class BoardBaggageArea : InteractableBase
             nextCustomer.HasBaggage = false;
         }
 
+        // Change the customer’s state
         EventManager.Broadcast(GameEvent.OnCustomerChangeState, nextCustomer.gameObject,
             CustomerStateType.MovingToStairs);
     }

@@ -19,6 +19,7 @@ public class BaggageLift : MonoBehaviour
         startPos = transform.position;
     }
 
+    // Takes baggage from the Xray machine and sends it to the truck
     public void TakeBaggage(Baggage baggage)
     {
         baggage.SetParticlePlay(true);
@@ -35,6 +36,7 @@ public class BaggageLift : MonoBehaviour
 
                 transform.DOMove(topPoint.position, liftDuration).SetEase(Ease.InOutCubic).OnComplete(() =>
                 {
+                    // Deliver baggage to the truck
                     truck.AddBaggage(baggage);
 
                     transform.DOMove(startPos, liftDuration).SetEase(Ease.InOutCubic)
@@ -43,6 +45,7 @@ public class BaggageLift : MonoBehaviour
             });
     }
 
+    // Sets the busy state
     public void SetBusy(bool value)
     {
         isBusy = value;

@@ -9,6 +9,7 @@ public class Baggage : MonoBehaviour, IPoolable
     [SerializeField] private BaggageColor _baggageColor;
     [SerializeField] private TrailRenderer _baggageTrail;
 
+    // Makes the baggage jump to a target position
     public void JumpTo(Transform parent, Vector3 localOffset, Vector3 rotationOffset)
     {
         SetParticlePlay(true);
@@ -20,17 +21,20 @@ public class Baggage : MonoBehaviour, IPoolable
         transform.DOLocalRotate(Vector3.zero + rotationOffset, data.JumpDuration);
     }
 
+    // Enables or disables the trail effect
     public void SetParticlePlay(bool state)
     {
         _baggageTrail.enabled = state;
         _baggageTrail.Clear();
     }
 
+    // Called when the object is spawned from the pool
     public void OnObjectSpawn()
     {
         _baggageColor.ApplyRandomColor();
     }
 
+    // Called when the object is returned to the pool
     public void OnObjectDespawn()
     {
     }

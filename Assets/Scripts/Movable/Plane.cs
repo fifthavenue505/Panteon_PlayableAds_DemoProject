@@ -14,7 +14,6 @@ public class Plane : MonoBehaviour
 
     [SerializeField] private Transform backTarget;
     [SerializeField] private Transform forwardTarget;
-    [SerializeField] private Transform planeModel;
     [SerializeField] private ParticleSystem smokeEffect;
 
     [SerializeField] private bool isReady;
@@ -25,12 +24,15 @@ public class Plane : MonoBehaviour
 
     private Sequence seq;
 
+    // Triggered when a passenger boards the plane
     private void OnCustomerEnterPlane()
     {
         currentCustomerCount++;
         customerText.text = currentCustomerCount + "/" + maxCustomerCapacity;
         smokeEffect.Play();
         transform.DOPunchScale(transform.localScale * .1f, 0.2f);
+        
+        // When capacity is reached
         if (currentCustomerCount >= maxCustomerCapacity)
         {
             if (isReady)
@@ -42,25 +44,25 @@ public class Plane : MonoBehaviour
         }
     }
 
+    // Animates the plane
     [Button]
     private void OnMovePlane()
     {
         if (seq != null && seq.IsActive()) seq.Kill();
-
+        
         seq = DOTween.Sequence();
 
         seq.Append(transform.DOMove(backTarget.position, backDuration).SetEase(Ease.InOutCubic));
         var rot = transform.eulerAngles + new Vector3(0f, -90f, 0f);
-        seq.Join(
-            transform.DORotate(rot, rotateDuration).SetEase(Ease.InOutCubic)
-        );
-        seq.AppendCallback(() => { customerText.enabled = false; });
+        seq.Join(transform.DORotate(rot, rotateDuration).SetEase(Ease.InOutCubic));
+        seq.Join(customerText.transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InExpo).SetDelay(0.5f));
 
         seq.Append(
             transform.DOMove(forwardTarget.position, forwardDuration).SetEase(Ease.InCubic)
         );
     }
 
+    // Triggered when the truck arrives
     private void OnTruckArrive()
     {
         if (isReady)

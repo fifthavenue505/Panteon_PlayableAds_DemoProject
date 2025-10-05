@@ -4,7 +4,7 @@ using UnityEngine;
 public class BaggageData : ScriptableObject
 {
     [Header("Baggage Settings")]
-    [SerializeField] private float stackOffsetY = 0.42f;
+    [SerializeField] private float stackOffsetY = 0.42f; // Vertical offset used when stacking baggage objects
 
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float jumpDuration = 0.5f;

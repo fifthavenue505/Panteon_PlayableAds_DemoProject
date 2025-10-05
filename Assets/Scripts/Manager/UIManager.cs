@@ -30,7 +30,7 @@ public class UIManager : SingletonManager<UIManager>
         Color.yellow
     };
 
-    [SerializeField] private float selectedScale = 1.2f;
+    [SerializeField] private float selectedScale = 1.2f; // Scale multiplier
     [SerializeField] private float scaleDuration = 0.25f;
     private Button _selectedButton;
 
@@ -42,10 +42,11 @@ public class UIManager : SingletonManager<UIManager>
 
     private void Start()
     {
+        // Initialize brush progress
         OnPaintProgressUpdated(0f);
-
         brushSizeSlider.onValueChanged.AddListener(BrushSizeChanged);
 
+        // Add click listeners
         for (int i = 0; i < colorButtons.Length; i++)
         {
             int index = i;
@@ -75,11 +76,13 @@ public class UIManager : SingletonManager<UIManager>
         EventManager.RemoveHandler<Action>(GameEvent.OnPaintCompleted, OnPaintCompleted);
     }
 
+    // Updates the money text
     private void OnUpdateMoney()
     {
         moneyText.text = GameManager.Instance.GetData().TotalMoney.ToString();
     }
 
+    // Called when the painting area is activated
     private void OnBoardActivated()
     {
         moneyUiParent.SetActive(false);
@@ -91,6 +94,7 @@ public class UIManager : SingletonManager<UIManager>
         paintProgressText.text = Mathf.Round(percent) + "%";
     }
 
+    // Called when painting is completed
     private void OnPaintCompleted()
     {
         paintProgressText.text = "100%";
@@ -105,6 +109,7 @@ public class UIManager : SingletonManager<UIManager>
 
     // --- Brush Settings ---
 
+    // Updates brush size
     public void BrushSizeChanged(float value)
     {
         painter.SetBrushSize(value);
@@ -122,6 +127,7 @@ public class UIManager : SingletonManager<UIManager>
         SFXManager.Instance.Play(SFXType.ButtonClick);
     }
 
+    // Highlights the currently selected color button
     private void HighlightButton(Button newButton)
     {
         if (_selectedButton != null && _selectedButton != newButton)
@@ -135,7 +141,10 @@ public class UIManager : SingletonManager<UIManager>
 
     // --- Joystick ---
 
-    public FloatingJoystick GetJoystick() => joystick;
+    public FloatingJoystick GetJoystick()
+    {
+        return joystick;
+    }
 
     public void SetJoystickEnabled(bool enable)
     {

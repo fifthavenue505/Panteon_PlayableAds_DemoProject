@@ -28,12 +28,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Idle);
         _playerBaggage = GetComponent<PlayerBaggage>();
     }
 
     private void Start()
     {
+        EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Idle);
         joystick = UIManager.Instance.GetJoystick();
     }
 
@@ -78,5 +78,16 @@ public class PlayerController : MonoBehaviour
     {
         Ray ray = new Ray(transform.position + Vector3.up * 0.5f, moveDir);
         return Physics.Raycast(ray, rayDistance, obstacleMask);
+    }
+
+    public void SetPlayerControlElements(bool state)
+    {
+        UIManager.Instance.SetJoystickEnabled(state);
+        
+        // Hide tutorial arrow
+        if (TutorialManager.Instance.GetTutorialActive())
+            TutorialManager.Instance.SetPlayerArrow(state);
+        
+        SetTrailParticle(state);
     }
 }

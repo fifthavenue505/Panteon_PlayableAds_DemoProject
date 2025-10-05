@@ -17,8 +17,10 @@ public class XRayMachine : InteractableBase
         timer += Time.deltaTime;
         if (timer < interactCooldown) return;
 
+        // Do not process if the lift is currently busy
         if (baggageLift.IsBusy) return;
 
+        // Attempt to take the next baggage from the input stack
         var baggage = xRayBaggageArea.RemoveBottomBaggage();
         if (baggage == null) return;
 
@@ -27,6 +29,7 @@ public class XRayMachine : InteractableBase
         Tween moveTween = baggage.transform.DOMove(outputPoint.position, baggageMoveDuration);
         SFXManager.Instance.Play(SFXType.ImpactPop, 0.1f);
 
+        // Play the Xray light effect halfway through the baggage move
         DOVirtual.DelayedCall(baggageMoveDuration / 2f, () => { xRayLightParticle.Play(); });
 
         moveTween.OnComplete(() => { baggageLift.TakeBaggage(baggage); });

@@ -35,7 +35,7 @@ public class SFXManager : SingletonManager<SFXManager>
 {
     [Title("SFX Settings")]
     [SerializeField] private AudioSource audioSource;
-    [SerializeField] private List<SFXData> sfxList = new();
+    [SerializeField] private List<SFXData> sfxList = new List<SFXData>();
 
     [Title("Pitch Controls")]
     [SerializeField, Range(0.1f, 2f)] private float currentPitch = 1f;
@@ -50,6 +50,7 @@ public class SFXManager : SingletonManager<SFXManager>
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
+        // Initialize dictionary
         sfxDict = new Dictionary<SFXType, SFXData>();
         foreach (var sfx in sfxList)
         {
@@ -61,6 +62,7 @@ public class SFXManager : SingletonManager<SFXManager>
         currentPitch = defaultPitch;
     }
 
+    // Plays a sound effect, optionally increasing pitch
     public void Play(SFXType type, float pitchIncrease = 0f)
     {
         if (sfxDict.TryGetValue(type, out var sfx))
@@ -78,6 +80,7 @@ public class SFXManager : SingletonManager<SFXManager>
         currentPitch = defaultPitch;
     }
 
+    // Stops all currently playing sounds and resets pitch
     public void Stop()
     {
         if (audioSource.isPlaying)

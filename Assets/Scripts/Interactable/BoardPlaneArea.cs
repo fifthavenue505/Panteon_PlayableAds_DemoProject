@@ -17,6 +17,8 @@ public class BoardPlaneArea : InteractableBase
         stayTimer = 0f;
 
         var manager = CustomerSystemManager.Instance;
+        
+        // Retrieve the next customer waiting in the plane queue
         var nextCustomer = manager.GetNextCustomerFromQueue(QueueType.Plane);
         if (nextCustomer == null) return;
 

@@ -15,7 +15,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
     }
 
     [Title("Tutorial Settings")] [SerializeField]
-    private List<TutorialStep> steps = new();
+    private List<TutorialStep> steps = new List<TutorialStep>();
 
     [SerializeField] private Transform playerArrow;
     [SerializeField] private GameObject currentTarget;
@@ -30,6 +30,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
     private Color originalColor;
     private SpriteRenderer currentImage;
 
+    // Enables or disables the player guidance arrow
     public void SetPlayerArrow(bool state)
     {
         playerArrow.gameObject.SetActive(state);
@@ -60,6 +61,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
         MoveToNextStep();
     }
 
+    // Rotates the arrow to current target
     private void Update()
     {
         if (!tutorialActive || currentIndex < 0 || currentIndex >= steps.Count)
@@ -78,6 +80,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
             playerArrow.forward = dir.normalized;
     }
 
+    // Advances to the next tutorial
     private void MoveToNextStep()
     {
         if (currentIndex >= 0 && currentIndex < steps.Count)
@@ -98,6 +101,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
         tutorialActive = true;
     }
 
+    // Applies highlight and scale effects
     private void ApplyCurrentVisual()
     {
         var step = steps[currentIndex];
@@ -115,6 +119,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
             originalColor = currentImage.color;
         }
 
+        // Apply visual highlighting effects
         if (step.shouldHighlight)
         {
             step.target.DOScale(originalScale * highlightScale, tweenDuration)
@@ -126,6 +131,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
         }
     }
 
+    // Resets the previous step
     private void ResetCurrentVisual()
     {
         var prevStep = steps[currentIndex];
@@ -146,6 +152,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
         }
     }
 
+    // Called when a tutorial step is completed
     private void OnTutorialStepCompleted()
     {
         playerArrow.gameObject.SetActive(true);

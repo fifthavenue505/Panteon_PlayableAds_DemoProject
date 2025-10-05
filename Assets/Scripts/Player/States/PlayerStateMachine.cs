@@ -26,6 +26,7 @@ public class PlayerStateMachine : MonoBehaviour
     {
         playerController = GetComponent<PlayerController>();
 
+        // Initialize and register all player states
         states = new Dictionary<PlayerStateType, PlayerBaseState>
         {
             { PlayerStateType.Idle, new PlayerIdleState(this) },
@@ -38,15 +39,12 @@ public class PlayerStateMachine : MonoBehaviour
         };
     }
 
-    private void Start()
-    {
-    }
-
     private void Update()
     {
         currentState?.UpdateState();
     }
 
+     // Handles transition from one player state to another
     private void OnPlayerChangeState(PlayerStateType stateType)
     {
         if (!states.TryGetValue(stateType, out var newState)) return;

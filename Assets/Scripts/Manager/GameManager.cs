@@ -9,6 +9,8 @@ public class GameManager : SingletonManager<GameManager>
     void Start()
     {
         Application.targetFrameRate = 60;
+        
+        // Reset all runtime values in the game data at the start of the game
         GetData().ResetData();
     }
     

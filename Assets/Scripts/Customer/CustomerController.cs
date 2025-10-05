@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class CustomerController : MonoBehaviour, IPoolable
 {
-    [SerializeField] private CustomerData data;
+    [SerializeField] private CustomerData data; // ScriptableObject that stores base stats
     
     [SerializeField, ReadOnly] private float speed;
     private CustomerStateMachine stateMachine;
@@ -31,6 +31,7 @@ public class CustomerController : MonoBehaviour, IPoolable
 
     public Transform BaggageHoldPoint => baggageHoldPoint;
 
+    // Assigns a new baggage object to the customer
     public void AssignBaggage(Baggage newBaggage)
     {
         baggage = newBaggage;
@@ -46,28 +47,38 @@ public class CustomerController : MonoBehaviour, IPoolable
         customerColor = GetComponent<CustomerColor>();
     }
     
+    // Moves the customer to a specific target position
     public void MoveCustomer(Transform targetPos,
         List<CustomerQueueDataContainer> queueData)
     {
         if (targetPos == null) return;
 
+        // Calculate travel duration
         var distance = Vector3.Distance(transform.position, targetPos.position);
         var duration = distance / speed;
+        
+        // Update state
         EventManager.Broadcast(GameEvent.OnCustomerChangeState, gameObject, GetMoveState(hasBaggage));
 
+        // Rotate toward the target smoothly
         transform.DORotateQuaternion(Quaternion.LookRotation(GetDirection(targetPos.position, transform.position)),
             0.15f);
+        
+        // Move to the target position
         transform.DOMove(targetPos.position, duration)
             .SetEase(Ease.Linear)
             .OnComplete(() => { CustomerSystemManager.Instance.OnCustomerReachedSpot(this, queueData); });
     }
 
+    // Returns the correct movement state based on baggage
     public CustomerStateType GetMoveState(bool hasBaggage) =>
         hasBaggage ? CustomerStateType.MovingToBaggageQueue : CustomerStateType.MovingToPlaneQueue;
 
+    // Returns the correct idle state based on baggage
     public CustomerStateType GetIdleState(bool hasBaggage) =>
         hasBaggage ? CustomerStateType.IdleInBaggageQueue : CustomerStateType.IdleInPlaneQueue;
 
+    // Moves the customer through positions
     public void MoveThroughPositions(CustomerStateType newState)
     {
         UpdatePositions();
@@ -77,6 +88,7 @@ public class CustomerController : MonoBehaviour, IPoolable
         var seq = DOTween.Sequence();
         var currentPos = transform.position;
 
+        // Append a movement tween for each position
         foreach (var pos in positionsToMove)
         {
             var distance = Vector3.Distance(currentPos, pos.position);
@@ -89,6 +101,7 @@ public class CustomerController : MonoBehaviour, IPoolable
             currentPos = pos.position;
         }
 
+        // When finished moving through all positions, change to the next state
         seq.OnComplete(() =>
         {
             if (CustomerStateType.IdleInPlaneQueue != newState)
@@ -100,6 +113,7 @@ public class CustomerController : MonoBehaviour, IPoolable
         });
     }
 
+    // Calculates the direction vector
     private Vector3 GetDirection(Vector3 to, Vector3 from)
     {
         var dir = (to - from).normalized;
@@ -107,6 +121,7 @@ public class CustomerController : MonoBehaviour, IPoolable
         return dir;
     }
 
+    // Updates the movement path based on the current state type
     private void UpdatePositions()
     {
         positionsToMove.Clear();
@@ -122,11 +137,13 @@ public class CustomerController : MonoBehaviour, IPoolable
         }
     }
 
+    // Called when the object is spawned
     public void OnObjectSpawn()
     {
         customerColor.ApplyRandomColors(data);
     }
 
+    // Called when the object is despawned
     public void OnObjectDespawn()
     {
     }

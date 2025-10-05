@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Customer behavior states
 public enum CustomerStateType
 {
     MovingToBaggageQueue,
@@ -19,8 +20,8 @@ public class CustomerStateMachine : MonoBehaviour
 {
     public CustomerController customerController;
 
-    // State Machine
-    private CustomerBaseState currentState;
+    // State machine core
+    private CustomerBaseState currentState; // Currently active state
     [SerializeField] private CustomerStateType currentStateType;
     public CustomerStateType CurrentStateType => currentStateType;
 
@@ -30,6 +31,7 @@ public class CustomerStateMachine : MonoBehaviour
     {
         customerController = GetComponent<CustomerController>();
 
+        // Initialize
         states = new Dictionary<CustomerStateType, CustomerBaseState>
         {
             { CustomerStateType.MovingToBaggageQueue, new MovingToBaggageQueue(this) },
@@ -48,11 +50,13 @@ public class CustomerStateMachine : MonoBehaviour
         currentState?.UpdateState();
     }
 
+    // Transitions between states
     private void OnCustomerChangeState(GameObject target, CustomerStateType stateType)
     {
         if (target != gameObject) return;
         if (!states.TryGetValue(stateType, out var newState)) return;
 
+        // Exit the current state, enter to the new one
         currentState?.ExitState();
         currentState = newState;
         currentStateType = stateType;

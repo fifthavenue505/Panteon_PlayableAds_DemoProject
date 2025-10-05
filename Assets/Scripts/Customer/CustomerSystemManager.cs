@@ -10,6 +10,7 @@ public enum QueueType
     Plane
 }
 
+// Holds data for each queue point
 [Serializable]
 public struct CustomerQueueDataContainer
 {
@@ -27,8 +28,8 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
     private List<CustomerController> customers;
 
     [SerializeField] private Transform customerSpawnTransform;
-    [SerializeField] private int customerCount = 6;
-    [SerializeField] private float spawnDelay = 1f;
+    [SerializeField] private int customerCount = 6; // Number of customers to spawn
+    [SerializeField] private float spawnDelay = 1f; // Delay between spawning
 
     [Title("References")] [SerializeField] private StairAttachTrigger attachTrigger;
     public StairAttachTrigger AttachTrigger => attachTrigger;
@@ -44,6 +45,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
     {
         base.Awake();
 
+        // Initialize dictionary to access queue lists by queue type
         queues = new Dictionary<QueueType, List<CustomerQueueDataContainer>>
         {
             { QueueType.Baggage, baggageQueueData },
@@ -66,10 +68,12 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         StartCoroutine(BringInCustomers());
     }
 
+    // Spawns and initializes customers
     private IEnumerator BringInCustomers()
     {
         for (int i = 0; i < customerCount; i++)
         {
+            // Create a new customer and baggage object from the factory
             var customer = Factory.CreateCustomer(customerSpawnTransform.position, customerSpawnTransform.rotation);
             var baggage = Factory.CreateBaggage(Vector3.zero);
 
@@ -80,6 +84,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
 
             customer.AssignBaggage(baggage);
 
+            // Try to assign the customer to the baggage queue
             var success = TryAssignCustomerToQueue(customer, QueueType.Baggage);
 
             if (!success) yield break;
@@ -88,6 +93,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         }
     }
 
+    // Tries to find an available queue spot and assigns the customer
     public bool TryAssignCustomerToQueue(CustomerController customer, QueueType queueType)
     {
         var queueData = queues[queueType];
@@ -98,6 +104,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         return true;
     }
 
+    // Finds the first unoccupied spot in a given queue list
     private int GetFirstAvailableSpotIndex(List<CustomerQueueDataContainer> queueData)
     {
         for (int i = 0; i < queueData.Count; i++)
@@ -109,6 +116,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         return -1;
     }
 
+    // Assigns a customer to a specific queue spot
     private void AssignCustomerToQueue(CustomerController customer,
         List<CustomerQueueDataContainer> queueData,
         int spotIndex)
@@ -118,9 +126,11 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         data.IsInCorrectSpot = false;
         queueData[spotIndex] = data;
 
+        // Start the movement toward the assigned queue position
         customer.MoveCustomer(data.QueuePoint, queueData);
     }
 
+    // Called when a customer reaches their assigned queue spot
     public void OnCustomerReachedSpot(CustomerController customer, List<CustomerQueueDataContainer> queueData)
     {
         for (int i = 0; i < queueData.Count; i++)
@@ -130,6 +140,8 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
                 var data = queueData[i];
                 data.IsInCorrectSpot = true;
                 queueData[i] = data;
+                
+                // Switch to idle state
                 EventManager.Broadcast(GameEvent.OnCustomerChangeState, customer.gameObject,
                     customer.GetIdleState(customer.HasBaggage));
                 break;
@@ -137,6 +149,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         }
     }
 
+    // Returns the next customer from a queue
     public CustomerController GetNextCustomerFromQueue(QueueType queueType)
     {
         var queueData = queues[queueType];
@@ -158,6 +171,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
         return null;
     }
 
+    // Shifts customers forward
     private void AdvanceQueue(int emptiedIndex, QueueType queueType)
     {
         var queueData = queues[queueType];
@@ -170,10 +184,12 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
             var customer = currentData.CustomerInQueue;
             var newTarget = queueData[i - 1].QueuePoint;
 
+            // Clear the current queue entry
             currentData.CustomerInQueue = null;
             currentData.IsInCorrectSpot = false;
             queueData[i] = currentData;
 
+            // Move the customer to the new spot and update queue data
             var newData = queueData[i - 1];
             newData.CustomerInQueue = customer;
             newData.IsInCorrectSpot = false;

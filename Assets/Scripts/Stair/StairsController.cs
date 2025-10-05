@@ -34,6 +34,7 @@ public class StairsController : MonoBehaviour
         EventManager.RemoveHandler(GameEvent.OnEnvironmentElementsActivated, (Action)OnEnvironmentElementsActivated);
     }
 
+    // Update Steps Movement
     private void Update()
     {
         if (!isActive) return;
@@ -53,12 +54,14 @@ public class StairsController : MonoBehaviour
         }
     }
 
+    // Step Completion Logic
     private void HandleStepCompletion(Transform step)
     {
         DetachChildrenAndUpdateStates(step);
         RecycleStep(step);
     }
 
+    // Detach any children and update their states accordingly
     private void DetachChildrenAndUpdateStates(Transform step)
     {
         for (int i = step.childCount - 1; i >= 0; i--)
@@ -80,6 +83,7 @@ public class StairsController : MonoBehaviour
         }
     }
 
+    // Recycle the step to the start position
     private void RecycleStep(Transform step)
     {
         var overshoot = Vector3.Dot(step.position - endPoint.position, direction);
@@ -91,6 +95,7 @@ public class StairsController : MonoBehaviour
         EventManager.Broadcast(GameEvent.OnStepRecycled, step);
     }
 
+    // Initialize stairs when environment elements are activated
     private void OnEnvironmentElementsActivated()
     {
         AlignStepsEvenly();
@@ -99,6 +104,7 @@ public class StairsController : MonoBehaviour
         totalDistance = Vector3.Distance(startPoint.position, endPoint.position);
     }
 
+    // Align steps evenly between start and end points
     [Button]
     public void AlignStepsEvenly()
     {

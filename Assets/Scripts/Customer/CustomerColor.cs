@@ -4,7 +4,7 @@ using Sirenix.OdinInspector;
 public class CustomerColor : MonoBehaviour
 {
     [SerializeField] private Renderer rend;
-    private MaterialPropertyBlock mpb;
+    private MaterialPropertyBlock mpb; // Used to modify material properties
 
     private void Awake()
     {
@@ -13,6 +13,7 @@ public class CustomerColor : MonoBehaviour
         mpb = new MaterialPropertyBlock();
     }
 
+    // Randomly assigns UV tiling offsets for each material layer using data
     public void ApplyRandomColors(CustomerData data)
     {
         if (data == null) return;
@@ -22,6 +23,7 @@ public class CustomerColor : MonoBehaviour
         ApplyUV(2, data.pantTilings[Random.Range(0, data.pantTilings.Count)]);
     }
 
+    // Apply only the tiling (scale) part and leave offset as zero
     private void ApplyUV(int materialIndex, Vector2 tiling)
     {
         rend.GetPropertyBlock(mpb, materialIndex);

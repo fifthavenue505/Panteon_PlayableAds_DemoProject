@@ -38,6 +38,7 @@ public class CameraManager : MonoBehaviour
         SwitchCameraStay();
     }
 
+    // Switches to the environment camera, waits for a given time, then returns to the main camera
     private IEnumerator SwitchCameraAndReturn(float waitTime)
     {
         environmentCam.Priority = 20;
@@ -49,6 +50,7 @@ public class CameraManager : MonoBehaviour
         environmentCam.Priority = 10;
     }
 
+    // Permanently switches to the board camera
     private void SwitchCameraStay()
     {
         boardCam.Priority = 20;

@@ -8,12 +8,14 @@ public interface IPoolable
     void OnObjectDespawn();
 }
 
+// Generic object pooling system
 public class Pool<T> where T : Component
 {
     private T prefab;
     private Transform parent;
     private Stack<T> pool = new Stack<T>();
 
+    // Constructor to initialize the pool with a prefab
     public Pool(T prefab, Transform parent=null, int initialSize=0)
     {
         this.prefab = prefab;
@@ -25,6 +27,7 @@ public class Pool<T> where T : Component
         }
     }
     
+    // Instantiates a new object, disables it
     private T CreateNew()
     {
         var obj = GameObject.Instantiate(prefab, parent);
@@ -32,6 +35,7 @@ public class Pool<T> where T : Component
         return obj;
     }
 
+    // Get an available object from the pool or creates a new one
     public T Spawn(Vector3 position, Quaternion rotation)
     {
         var item = pool.Count > 0 ? pool.Pop() : CreateNew();
@@ -41,6 +45,7 @@ public class Pool<T> where T : Component
         return item;
     }
 
+    // Returns an object to the pool
     public void Despawn(T item)
     {
         (item as IPoolable)?.OnObjectDespawn();

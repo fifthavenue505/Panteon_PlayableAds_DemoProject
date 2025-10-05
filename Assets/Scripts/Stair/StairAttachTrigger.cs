@@ -22,9 +22,9 @@ public class StairAttachTrigger : InteractableBase
 
     public override void InteractStay(GameObject interactor)
     {
-        
     }
 
+    // Starts The Next Interactor Movement
     private void StartNextInteractor()
     {
         if (currentInteractors.Count == 0) return;
@@ -34,20 +34,24 @@ public class StairAttachTrigger : InteractableBase
 
         BroadcastEnterEvent(interactor);
 
-        interactor.transform.DOMove(stairsController.StartPoint.transform.position, 0.3f)
-            .SetEase(Ease.Linear)
-            .OnComplete(() =>
-            {
-                isMoving = false;
-            });
+        if (interactor.GetComponent<PlayerController>())
+        {
+            interactor.transform.DOMove(stairsController.StartPoint.transform.position, 0.3f)
+                .SetEase(Ease.Linear)
+                .OnComplete(() => { isMoving = false; });
+            var direction = (stairsController.transform.position - interactor.transform.position).normalized;
+            direction.y = 0f;
 
-        var direction = (stairsController.transform.position - interactor.transform.position).normalized;
-        direction.y = 0f;
-
-        Quaternion targetRot = Quaternion.LookRotation(direction, Vector3.up);
-        interactor.transform.DORotateQuaternion(targetRot, 0.3f);
+            Quaternion targetRot = Quaternion.LookRotation(direction, Vector3.up);
+            interactor.transform.DORotateQuaternion(targetRot, 0.3f);
+        }
+        else
+        {
+            isMoving = false;
+        }
     }
 
+    // Broadcasts Event When Interactor Enters The Stairs
     private void BroadcastEnterEvent(GameObject interactor)
     {
         if (interactor.TryGetComponent<PlayerStateMachine>(out var player))
@@ -63,6 +67,7 @@ public class StairAttachTrigger : InteractableBase
         }
     }
 
+    // Called When A Step Is Recycled
     private void OnStepRecycled(Transform recycledStep)
     {
         if (!isMoving &&

@@ -7,6 +7,7 @@ public class CustomerAnimation : MonoBehaviour
 {
     [SerializeField] private Animator _customerAnimator;
 
+    // Parameter IDs for performance instead of using string every time
     private static readonly int IsWalking = Animator.StringToHash("isWalking");
     private static readonly int IsCarrying = Animator.StringToHash("isCarrying");
 
@@ -15,6 +16,7 @@ public class CustomerAnimation : MonoBehaviour
         _customerAnimator = GetComponentInChildren<Animator>();
     }
 
+    // Updates the animation parameters
     private void OnSetCustomerAnimation(GameObject target, bool isWalking, bool isCarrying)
     {
         if (target != gameObject) return;

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// Movement to baggage queue
 public class MovingToBaggageQueue : CustomerBaseState
 {
     public MovingToBaggageQueue(CustomerStateMachine customer) : base(customer) { }
@@ -11,6 +12,7 @@ public class MovingToBaggageQueue : CustomerBaseState
     }
 }
 
+// Waiting state in baggage queue
 public class IdleInBaggageQueue : CustomerBaseState
 {
     public IdleInBaggageQueue(CustomerStateMachine customer) : base(customer) { }
@@ -21,6 +23,7 @@ public class IdleInBaggageQueue : CustomerBaseState
     }
 }
 
+// Customer movement from baggage queue to the stairs
 public class MovingToStairs : CustomerBaseState
 {
     public MovingToStairs(CustomerStateMachine customer) : base(customer) { }
@@ -32,6 +35,7 @@ public class MovingToStairs : CustomerBaseState
     }
 }
 
+// Idle on stairs state
 public class IdleOnStairs : CustomerBaseState
 {
     public IdleOnStairs(CustomerStateMachine customer) : base(customer) { }
@@ -43,6 +47,7 @@ public class IdleOnStairs : CustomerBaseState
     }
 }
 
+// Customer movement from stairs to plane
 public class MovingToPlaneQueue : CustomerBaseState
 {
     public MovingToPlaneQueue(CustomerStateMachine customer) : base(customer) { }
@@ -53,6 +58,7 @@ public class MovingToPlaneQueue : CustomerBaseState
     }
 }
 
+// Waiting state inside the plane boarding queue
 public class IdleInPlaneQueue : CustomerBaseState
 {
     public IdleInPlaneQueue(CustomerStateMachine customer) : base(customer) { }
@@ -63,6 +69,7 @@ public class IdleInPlaneQueue : CustomerBaseState
     }
 }
 
+// Final movement of the customer toward the airplane
 public class MovingToPlane : CustomerBaseState
 {
     public MovingToPlane(CustomerStateMachine customer) : base(customer) { }
@@ -75,6 +82,7 @@ public class MovingToPlane : CustomerBaseState
     }
 }
 
+// Released state after the customer has boarded the plane
 public class Released : CustomerBaseState
 {
     public Released(CustomerStateMachine customer) : base(customer) { }

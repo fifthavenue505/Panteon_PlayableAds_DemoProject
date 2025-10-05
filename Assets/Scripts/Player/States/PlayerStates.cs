@@ -11,6 +11,7 @@ public class PlayerIdleState : PlayerBaseState
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, false);
     }
 
+    // Transition to walking when player starts moving
     public override void UpdateState()
     {
         if (player.playerController.HasMovementInput())
@@ -34,6 +35,8 @@ public class PlayerWalkingState : PlayerBaseState
     public override void UpdateState()
     {
         player.playerController.HandleMovement();
+        
+        // Transition to idle if no movement input
         if (!player.playerController.HasMovementInput())
         {
             EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Idle);
@@ -94,19 +97,15 @@ public class PlayerCarryingOnStairState : PlayerBaseState
 
     public override void EnterState()
     {
+        // Set animation and disable player control during stair sequence
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, true);
-        UIManager.Instance.SetJoystickEnabled(false);
-        if (TutorialManager.Instance.GetTutorialActive())
-            TutorialManager.Instance.SetPlayerArrow(false);
-        player.playerController.SetTrailParticle(false);
+        player.playerController.SetPlayerControlElements(false);
     }
 
     public override void ExitState()
     {
-        UIManager.Instance.SetJoystickEnabled(true);
-        if (TutorialManager.Instance.GetTutorialActive())
-            TutorialManager.Instance.SetPlayerArrow(true);
-        player.playerController.SetTrailParticle(true);
+        // Restore joystick and effects after leaving the stairs
+        player.playerController.SetPlayerControlElements(true);
     }
 }
 
@@ -118,21 +117,15 @@ public class PlayerIdleOnStairState : PlayerBaseState
 
     public override void EnterState()
     {
+        // Set animation and disable controls while on stairs
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, false);
-        UIManager.Instance.SetJoystickEnabled(false);
-        if (TutorialManager.Instance.GetTutorialActive())
-            TutorialManager.Instance.SetPlayerArrow(false);
-
-        player.playerController.SetTrailParticle(false);
+        player.playerController.SetPlayerControlElements(false);
     }
 
     public override void ExitState()
     {
-        UIManager.Instance.SetJoystickEnabled(true);
-        if (TutorialManager.Instance.GetTutorialActive())
-            TutorialManager.Instance.SetPlayerArrow(true);
-
-        player.playerController.SetTrailParticle(true);
+        // Restore joystick and effects after leaving the stairs
+        player.playerController.SetPlayerControlElements(true);
     }
 }
 

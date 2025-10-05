@@ -45,17 +45,17 @@ Shader "Custom/PaintShader"
 
             fixed4 frag(v2f i) : SV_Target
             {
-                // Ana texture’dan oku
+                // Main texture
                 fixed4 col = tex2D(_MainTex, i.uv);
 
-                // Brush merkezinden uzaklığı hesapla
+                // Distance from brush
                 float2 diff = (i.uv - _BrushUV.xy) / _BrushSize;
                 float dist = length(diff);
 
-                // Brush texture’ünü oku
+                // Read brush texture
                 fixed4 b = tex2D(_BrushTex, diff * 0.5 + 0.5);
 
-                // Eğer brush içindeyse boyayı uygula
+                // Blend brush color based on distance and brush alpha
                 if (dist < 0.5)
                 {
                     col = lerp(col, _BrushColor, b.a);

@@ -1,22 +1,25 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MeshPainter : MonoBehaviour
 {
-    [Header("References")] [SerializeField]
+    [Title("References")] [SerializeField]
     private Camera cam;
 
     [SerializeField] private Material paintMaterial;
     [SerializeField] private Shader brushShader;
     [SerializeField] private Texture2D brushTexture;
+    [SerializeField] private LayerMask boardLayerMask;
     [SerializeField] private ParticleSystem confettiParticle;
 
-    [Header("Brush Settings")] [SerializeField]
+    [Title("Brush Settings")] [SerializeField]
     private Color paintColor = Color.red;
 
     [SerializeField] private float brushSize = 0.05f;
 
-    [Header("Hit Indicator")] [SerializeField]
+    [Title("Hit Indicator")] [SerializeField]
     private GameObject hitIndicator;
 
     [SerializeField] private Vector3 offset = Vector3.up * 0.01f;
@@ -27,6 +30,8 @@ public class MeshPainter : MonoBehaviour
     private float lastPercent = 0f;
     [SerializeField] private bool isReady;
     private bool isFinished;
+
+    private Vector2? lastUV = null;
 
     private void Start()
     {
@@ -48,12 +53,11 @@ public class MeshPainter : MonoBehaviour
     {
         if (Input.GetMouseButton(0) && isReady)
         {
-            if (UnityEngine.EventSystems.EventSystem.current != null &&
-                UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject())
+            if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
                 return;
 
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hit))
+            if (Physics.Raycast(ray, out RaycastHit hit, 100f, boardLayerMask))
             {
                 if (hitIndicator != null)
                 {
@@ -61,25 +65,44 @@ public class MeshPainter : MonoBehaviour
                     hitIndicator.transform.rotation = Quaternion.LookRotation(hit.normal);
                 }
 
-                // Painting
                 Vector2 uv = hit.textureCoord;
-                PaintAt(uv);
+
+                if (lastUV.HasValue)
+                    PaintLine(lastUV.Value, uv);
+                else
+                    PaintAt(uv);
+
+                lastUV = uv;
 
                 float percent = GetPaintedPercentage();
+
                 if (Mathf.Abs(percent - lastPercent) > 0.5f)
                 {
                     lastPercent = percent;
                     EventManager.Broadcast(GameEvent.OnPaintProgressUpdated, percent);
-                    
+
                     if (Mathf.Round(percent) >= 100f && !isFinished)
                     {
                         isFinished = true;
                         confettiParticle?.Play();
-
                         EventManager.Broadcast(GameEvent.OnPaintCompleted);
                     }
                 }
             }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+            lastUV = null;
+    }
+
+    private void PaintLine(Vector2 from, Vector2 to)
+    {
+        float distance = Vector2.Distance(from, to);
+        int steps = Mathf.CeilToInt(distance / (brushSize * 0.5f));
+        for (int i = 0; i <= steps; i++)
+        {
+            Vector2 lerped = Vector2.Lerp(from, to, i / (float)steps);
+            PaintAt(lerped);
         }
     }
 
@@ -123,7 +146,6 @@ public class MeshPainter : MonoBehaviour
     }
 
     void OnBrushSizeChanged(float newSize) => SetBrushSize(newSize);
-
     void OnBoardActivated() => isReady = true;
 
     private void OnEnable()

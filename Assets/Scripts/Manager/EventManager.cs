@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 
+// Each event can be broadcast and listened to by multiple components
 public enum GameEvent
 {
     OnPlayerChangeState,
@@ -24,8 +25,10 @@ public enum GameEvent
 
 public static class EventManager
 {
+    // Dictionary that maps each event type
     private static readonly Dictionary<GameEvent, Delegate> eventTable = new();
 
+    // Registers a new event handler for the specified event type
     public static void AddHandler<TDelegate>(GameEvent evt, TDelegate handler) where TDelegate : Delegate
     {
         if (eventTable.TryGetValue(evt, out var existing))
@@ -34,6 +37,7 @@ public static class EventManager
             eventTable[evt] = handler;
     }
 
+     // Removes a specific handler from the specified event
     public static void RemoveHandler<TDelegate>(GameEvent evt, TDelegate handler) where TDelegate : Delegate
     {
         if (eventTable.TryGetValue(evt, out var existing))
@@ -44,6 +48,7 @@ public static class EventManager
         }
     }
 
+    // Broadcasts an event to all subscribed listeners
     public static void Broadcast(GameEvent evt, params object[] args)
     {
         if (eventTable.TryGetValue(evt, out var del))

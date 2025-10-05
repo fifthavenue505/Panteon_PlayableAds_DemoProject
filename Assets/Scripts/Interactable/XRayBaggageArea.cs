@@ -7,7 +7,7 @@ public class XRayBaggageArea : InteractableBase
 {
     [SerializeField] private Transform stackPoint;
     [SerializeField] private float interactCooldown = 0.5f;
-    [SerializeField] private Vector3 additionalRotation = new Vector3(0, 180, 0);
+    [SerializeField] private Vector3 additionalRotation = new Vector3(0, 180, 0); // Extra rotation applied to baggage for alignment
 
     [ReadOnly, SerializeField] private List<Baggage> baggageList = new();
 
@@ -38,6 +38,7 @@ public class XRayBaggageArea : InteractableBase
         timer = 0f;
     }
 
+    // Adds a baggage object to the stack
     public void AddBaggage(Baggage baggage)
     {
         baggageList.Add(baggage);
@@ -48,10 +49,12 @@ public class XRayBaggageArea : InteractableBase
         SFXManager.Instance.Play(SFXType.ImpactPop, 0.1f);
         
         baggage.JumpTo(stackPoint, targetPos, additionalRotation);
+        
         if (baggageList.Count == maxBaggageCount)
             EventManager.Broadcast(GameEvent.OnTutorialStepCompleted);
     }
 
+    // Removes the bottom baggage from the stack and repositions the remaining ones
     public Baggage RemoveBottomBaggage()
     {
         if (baggageList.Count == 0) return null;
@@ -66,6 +69,8 @@ public class XRayBaggageArea : InteractableBase
         }
         
         passedBaggageCount++;
+        
+        // Check for tutorial completion
         if (passedBaggageCount == 6)
             EventManager.Broadcast(GameEvent.OnTutorialStepCompleted);
 

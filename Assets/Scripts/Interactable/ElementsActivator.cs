@@ -18,37 +18,33 @@ public class ElementsActivator : InteractableBase
     private GameManager gameManager;
     private SFXManager sfxManager;
 
-    [Title("Fill Settings")] [SerializeField]
-    private Image iconImage;
-
+    [Title("Fill Settings")] 
+    [SerializeField] private Image iconImage;
     [SerializeField] private Image fillImage;
     [SerializeField] private Image moneyImage;
     [SerializeField] private GameObject arrowMark;
-
     [SerializeField] private bool isReady;
-
-
-    [Title("Open Sequence")] [SerializeField]
-    private List<Transform> targets;
-
+    
+    [Title("Open Sequence")] 
+    [SerializeField] private List<Transform> targets;
     [SerializeField] private float eachScaleDuration = 0.25f;
     [SerializeField] private float betweenDelay = 0.07f;
+    private bool sequenceStarted;
 
-    [Title("Money Settings")] [SerializeField]
-    private int cost = 50;
-
+    [Title("Money Settings")] 
+    [SerializeField] private int cost = 50;
     [SerializeField] private float payPerSecond = 10f;
     [SerializeField] private Collider interactCollider;
     [SerializeField] private int moneyValue;
     [SerializeField] private TextMeshProUGUI moneyValueText;
     [SerializeField] private bool setTargetsScaleZeroOnStart = true;
 
-    [Title("Type")] [SerializeField] private ElementsActivatorType activatorType;
+    [Title("Type")] 
+    [SerializeField] private ElementsActivatorType activatorType;
 
-    [Title("Colors")] [SerializeField] private Color enabledColor = Color.white;
+    [Title("Colors")] 
+    [SerializeField] private Color enabledColor = Color.white;
     [SerializeField] private Color disabledColor = new(1f, 1f, 1f, 0.4f);
-
-    private bool sequenceStarted;
     [SerializeField] private Transform playerMovePos;
 
     private void Awake()
@@ -63,6 +59,7 @@ public class ElementsActivator : InteractableBase
         if (moneyValueText != null)
             moneyValueText.text = moneyValue.ToString("0");
 
+        // Optionally hide all target objects
         if (setTargetsScaleZeroOnStart)
         {
             foreach (var t in targets)
@@ -75,6 +72,7 @@ public class ElementsActivator : InteractableBase
 
     private void Start()
     {
+        // If this activator controls the boarding area, disable it at the start
         if (activatorType == ElementsActivatorType.Board)
         {
             ApplyState(false);
@@ -87,13 +85,14 @@ public class ElementsActivator : InteractableBase
         if (gameManager.GetData().TotalMoney <= 0) return;
         if (sequenceStarted || fillImage == null) return;
 
+        // Calculate how much money
         int decrease = Mathf.CeilToInt(payPerSecond * Time.deltaTime);
-
         int actualDecrease = (int)Mathf.Min(decrease, gameManager.GetData().TotalMoney, moneyValue);
 
         gameManager.GetData().TotalMoney -= actualDecrease;
         moneyValue -= actualDecrease;
 
+        // Update UI text and progress bar
         if (moneyValueText != null)
             moneyValueText.text = moneyValue.ToString("0");
 
@@ -104,9 +103,11 @@ public class ElementsActivator : InteractableBase
 
         EventManager.Broadcast(GameEvent.OnUpdateMoney);
         
+        // Play money sound
         if(!sfxManager.IsAudioSourcePlaying())
             sfxManager.Play(SFXType.MoneyThrow);
 
+        // If payment is complete, start the activation
         if (moneyValue <= 0)
         {
             moneyValue = 0;
@@ -126,9 +127,12 @@ public class ElementsActivator : InteractableBase
             sfxManager.Stop();
     }
 
+    // Plays the activation sequence
     private IEnumerator OpenSequence(GameObject interactor)
     {
         EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Waiting);
+        
+         // Choose the behavior depending on the activator type
         switch (activatorType)
         {
             case ElementsActivatorType.Environment:
@@ -150,6 +154,7 @@ public class ElementsActivator : InteractableBase
                 break;
         }
 
+        // Animate each target appearing one by one
         foreach (var t in targets)
         {
             if (t == null) continue;
@@ -184,6 +189,7 @@ public class ElementsActivator : InteractableBase
         isReady = true;
     }
 
+    // Called whenever the player's total money changes
     private void OnUpdateMoney()
     {
         if (activatorType != ElementsActivatorType.Board)
@@ -200,6 +206,7 @@ public class ElementsActivator : InteractableBase
         }
     }
 
+    // Updates the visual and collider states of the activator
     private void ApplyState(bool enabled)
     {
         Color color = enabled ? enabledColor : disabledColor;
@@ -212,6 +219,7 @@ public class ElementsActivator : InteractableBase
         interactCollider.enabled = enabled;
     }
 
+    // Smoothly updates the color of image
     private void SetUIColor(Image image, Color color)
     {
         if (image != null)
@@ -221,6 +229,7 @@ public class ElementsActivator : InteractableBase
         }
     }
 
+    // Smoothly updates the color of text
     private void SetTextColor(TMP_Text text, Color color)
     {
         if (text != null)
