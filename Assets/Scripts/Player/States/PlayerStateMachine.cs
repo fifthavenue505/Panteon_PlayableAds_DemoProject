@@ -10,6 +10,7 @@ public enum PlayerStateType
     CarryingWalking,
     IdleOnStair,
     CarryingOnStair,
+    Waiting,
 }
 
 public class PlayerStateMachine : MonoBehaviour
@@ -32,7 +33,8 @@ public class PlayerStateMachine : MonoBehaviour
             { PlayerStateType.CarryingIdle, new PlayerCarryingIdleState(this) },
             { PlayerStateType.CarryingWalking, new PlayerCarryingWalkingState(this) },
             { PlayerStateType.IdleOnStair, new PlayerIdleOnStairState(this) },
-            { PlayerStateType.CarryingOnStair, new PlayerCarryingOnStairState(this) }
+            { PlayerStateType.CarryingOnStair, new PlayerCarryingOnStairState(this) },
+            { PlayerStateType.Waiting, new PlayerWaitingState(this) }
         };
     }
 

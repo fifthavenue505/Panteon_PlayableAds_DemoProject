@@ -48,9 +48,9 @@ public class CustomerStateMachine : MonoBehaviour
         currentState?.UpdateState();
     }
 
-    private void OnCustomerChangeState(CustomerStateMachine target, CustomerStateType stateType)
+    private void OnCustomerChangeState(GameObject target, CustomerStateType stateType)
     {
-        if (target != this) return;
+        if (target != gameObject) return;
         if (!states.TryGetValue(stateType, out var newState)) return;
 
         currentState?.ExitState();
@@ -62,12 +62,12 @@ public class CustomerStateMachine : MonoBehaviour
     private void OnEnable()
     {
         EventManager.AddHandler(GameEvent.OnCustomerChangeState,
-            (Action<CustomerStateMachine, CustomerStateType>)OnCustomerChangeState);
+            (Action<GameObject, CustomerStateType>)OnCustomerChangeState);
     }
 
     private void OnDisable()
     {
         EventManager.RemoveHandler(GameEvent.OnCustomerChangeState,
-            (Action<CustomerStateMachine, CustomerStateType>)OnCustomerChangeState);
+            (Action<GameObject, CustomerStateType>)OnCustomerChangeState);
     }
 }

@@ -5,17 +5,15 @@ using UnityEngine;
 public class GameManager : SingletonManager<GameManager>
 {
     [SerializeField] private GameData gameData;
-    public GameData Data => gameData;
     
-    // Start is called before the first frame update
     void Start()
     {
-        Data.ResetData();
+        Application.targetFrameRate = 60;
+        GetData().ResetData();
     }
-
-    // Update is called once per frame
-    void Update()
+    
+    public GameData GetData()
     {
-        
+        return gameData;
     }
 }

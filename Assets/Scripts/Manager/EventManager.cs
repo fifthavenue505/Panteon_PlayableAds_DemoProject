@@ -5,8 +5,21 @@ public enum GameEvent
 {
     OnPlayerChangeState,
     OnCustomerChangeState,
-    OnLevelElementsActivated,
-    OnUpdateMoneyText,
+    OnEnvironmentElementsActivated,
+    OnBoardActivated,
+    OnUpdateMoney,
+    OnBringInCustomers,
+    OnCustomerBoard,
+    OnCustomerEnterPlane,
+    OnMovePlane,
+    OnSetPlayerAnimation,
+    OnSetCustomerAnimation,
+    OnStepRecycled,
+    OnPaintProgressUpdated,
+    OnPaintCompleted,
+    OnBrushSizeChanged,
+    OnTruckArrive,
+    OnTutorialStepCompleted,
 }
 
 public static class EventManager

@@ -6,22 +6,35 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Title("Input")]
-    [SerializeField] private FloatingJoystick joystick;
-    
-    [Title("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
-    
-    [Title("Obstacle Detection")]
-    [SerializeField] private float rayDistance = 1f;
+    [Title("Movement Settings")] [SerializeField]
+    private float moveSpeed = 5f;
+
+    [Title("Obstacle Detection")] [SerializeField]
+    private float rayDistance = 1f;
+
     [SerializeField] private LayerMask obstacleMask;
-    
-    [Title("References")]
+
+    [Title("References")] [SerializeField] private PlayerBaggage _playerBaggage;
+    public PlayerBaggage _PlayerBaggage => _playerBaggage;
     [SerializeField] private Camera mainCamera;
+    [SerializeField] private FloatingJoystick joystick;
+    [SerializeField] private ParticleSystem trailParticle;
+
+    public void SetTrailParticle(bool state)
+    {
+        if (state) trailParticle.Play();
+        else trailParticle.Stop();
+    }
 
     private void Awake()
     {
         EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.Idle);
+        _playerBaggage = GetComponent<PlayerBaggage>();
+    }
+
+    private void Start()
+    {
+        joystick = UIManager.Instance.GetJoystick();
     }
 
     public void HandleMovement()
@@ -32,36 +45,38 @@ public class PlayerController : MonoBehaviour
         dir = dir.normalized;
 
         var camForward = mainCamera.transform.forward;
-        var camRight   = mainCamera.transform.right;
+        var camRight = mainCamera.transform.right;
 
         camForward.y = 0f;
-        camRight.y   = 0f;
+        camRight.y = 0f;
 
         camForward.Normalize();
         camRight.Normalize();
 
         var moveDir = camForward * dir.z + camRight * dir.x;
 
-        if (IsObstacleInFront(moveDir)) return;
+        if (!IsObstacleInFront(moveDir))
+        {
+            var delta = moveDir * (moveSpeed * Time.deltaTime);
+            transform.position += delta;
+        }
 
-        var delta = moveDir * (moveSpeed * Time.deltaTime);
-        transform.position += delta;
         transform.rotation = Quaternion.LookRotation(moveDir, Vector3.up);
     }
-    
+
     public bool HasMovementInput()
     {
-        return joystick.Horizontal != 0 || joystick.Vertical != 0;
+        return Mathf.Abs(joystick.Horizontal) >= 0.01f || Mathf.Abs(joystick.Vertical) >= 0.01f;
     }
 
     private Vector3 GetJoystickDirection()
     {
         return new Vector3(joystick.Horizontal, 0, joystick.Vertical);
     }
-    
+
     private bool IsObstacleInFront(Vector3 moveDir)
     {
-        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, moveDir); 
+        Ray ray = new Ray(transform.position + Vector3.up * 0.5f, moveDir);
         return Physics.Raycast(ray, rayDistance, obstacleMask);
     }
 }

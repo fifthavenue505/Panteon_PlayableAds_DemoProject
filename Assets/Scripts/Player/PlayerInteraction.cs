@@ -5,7 +5,7 @@ public class PlayerInteraction : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent<IInteractable>(out var interactable))
+        if (other.TryGetComponent<InteractableBase>(out var interactable))
         {
             interactable.InteractEnter(gameObject);
         }
@@ -13,7 +13,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent<IInteractable>(out var interactable))
+        if (other.TryGetComponent<InteractableBase>(out var interactable))
         {
             interactable.InteractStay(gameObject);
         }
@@ -21,7 +21,7 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent<IInteractable>(out var interactable))
+        if (other.TryGetComponent<InteractableBase>(out var interactable))
         {
             interactable.InteractExit(gameObject);
         }

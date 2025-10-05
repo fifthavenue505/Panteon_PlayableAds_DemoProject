@@ -7,12 +7,18 @@ public class MovingToBaggageQueue : CustomerBaseState
     public override void EnterState()
     {
         customer.customerController.MoveThroughPositions(CustomerStateType.IdleInBaggageQueue);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, true, true);
     }
 }
 
 public class IdleInBaggageQueue : CustomerBaseState
 {
     public IdleInBaggageQueue(CustomerStateMachine customer) : base(customer) { }
+
+    public override void EnterState()
+    {
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, false, true);
+    }
 }
 
 public class MovingToStairs : CustomerBaseState
@@ -22,6 +28,7 @@ public class MovingToStairs : CustomerBaseState
     public override void EnterState()
     {
         customer.customerController.MoveThroughPositions(CustomerStateType.IdleOnStairs);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, true, false);
     }
 }
 
@@ -31,7 +38,8 @@ public class IdleOnStairs : CustomerBaseState
 
     public override void EnterState()
     {
-        CustomerSystemManager.Instance.AttachTrigger.StairStepEnter(customer.gameObject);
+        CustomerSystemManager.Instance.AttachTrigger.InteractEnter(customer.gameObject);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, false, false);
     }
 }
 
@@ -41,7 +49,7 @@ public class MovingToPlaneQueue : CustomerBaseState
 
     public override void EnterState()
     {
-        customer.customerController.MoveThroughPositions(CustomerStateType.IdleInPlaneQueue);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, true, false);
     }
 }
 
@@ -51,7 +59,7 @@ public class IdleInPlaneQueue : CustomerBaseState
 
     public override void EnterState()
     {
-        CustomerSystemManager.Instance.TryAssignCustomerToQueue(customer.customerController, QueueType.Plane);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, false, false);
     }
 }
 
@@ -62,6 +70,8 @@ public class MovingToPlane : CustomerBaseState
     public override void EnterState()
     {
         customer.customerController.MoveThroughPositions(CustomerStateType.Released);
+        EventManager.Broadcast(GameEvent.OnCustomerBoard, customer.customerController);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, true, false);
     }
 }
 
@@ -71,6 +81,8 @@ public class Released : CustomerBaseState
 
     public override void EnterState()
     {
+        EventManager.Broadcast(GameEvent.OnCustomerEnterPlane);
+        EventManager.Broadcast(GameEvent.OnSetCustomerAnimation, customer.gameObject, false, false);
         Factory.ReleaseCustomer(customer.customerController);
     }
 }
