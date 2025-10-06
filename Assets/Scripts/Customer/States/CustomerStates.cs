@@ -3,10 +3,7 @@ using UnityEngine;
 // Movement to baggage queue
 public class MovingToBaggageQueue : CustomerBaseState
 {
-    public MovingToBaggageQueue(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public MovingToBaggageQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -18,10 +15,7 @@ public class MovingToBaggageQueue : CustomerBaseState
 // Waiting state in baggage queue
 public class IdleInBaggageQueue : CustomerBaseState
 {
-    public IdleInBaggageQueue(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public IdleInBaggageQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -32,10 +26,7 @@ public class IdleInBaggageQueue : CustomerBaseState
 // Customer movement from baggage queue to the stairs
 public class MovingToStairs : CustomerBaseState
 {
-    public MovingToStairs(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public MovingToStairs(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -47,10 +38,7 @@ public class MovingToStairs : CustomerBaseState
 // Idle on stairs state
 public class IdleOnStairs : CustomerBaseState
 {
-    public IdleOnStairs(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public IdleOnStairs(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -62,10 +50,7 @@ public class IdleOnStairs : CustomerBaseState
 // Customer movement from stairs to plane
 public class MovingToPlaneQueue : CustomerBaseState
 {
-    public MovingToPlaneQueue(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public MovingToPlaneQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -76,10 +61,7 @@ public class MovingToPlaneQueue : CustomerBaseState
 // Waiting state inside the plane boarding queue
 public class IdleInPlaneQueue : CustomerBaseState
 {
-    public IdleInPlaneQueue(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public IdleInPlaneQueue(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -90,10 +72,7 @@ public class IdleInPlaneQueue : CustomerBaseState
 // Final movement of the customer toward the airplane
 public class MovingToPlane : CustomerBaseState
 {
-    public MovingToPlane(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public MovingToPlane(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {
@@ -106,10 +85,7 @@ public class MovingToPlane : CustomerBaseState
 // Released state after the customer has boarded the plane
 public class Released : CustomerBaseState
 {
-    public Released(CustomerStateMachine customer)
-    {
-        this.customer = customer;
-    }
+    public Released(CustomerStateMachine customer) : base(customer) { }
 
     public override void EnterState()
     {

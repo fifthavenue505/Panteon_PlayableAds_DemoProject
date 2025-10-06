@@ -21,8 +21,7 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     [SerializeField] private PlayerStateType CurrentStateType;
 
-    private Dictionary<PlayerStateType, PlayerBaseState> states = new Dictionary<PlayerStateType, PlayerBaseState>();
-
+    private Dictionary<PlayerStateType, PlayerBaseState> states;
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -30,13 +29,13 @@ public class PlayerStateMachine : MonoBehaviour
         // Initialize and register all player states
         states = new Dictionary<PlayerStateType, PlayerBaseState>
         {
-            { PlayerStateType.Idle, new PlayerIdleState() },
-            { PlayerStateType.Walking, new PlayerWalkingState() },
-            { PlayerStateType.CarryingIdle, new PlayerCarryingIdleState() },
-            { PlayerStateType.CarryingWalking, new PlayerCarryingWalkingState() },
-            { PlayerStateType.IdleOnStair, new PlayerIdleOnStairState() },
-            { PlayerStateType.CarryingOnStair, new PlayerCarryingOnStairState() },
-            { PlayerStateType.Waiting, new PlayerWaitingState() }
+            { PlayerStateType.Idle, new PlayerIdleState(this) },
+            { PlayerStateType.Walking, new PlayerWalkingState(this) },
+            { PlayerStateType.CarryingIdle, new PlayerCarryingIdleState(this) },
+            { PlayerStateType.CarryingWalking, new PlayerCarryingWalkingState(this) },
+            { PlayerStateType.IdleOnStair, new PlayerIdleOnStairState(this) },
+            { PlayerStateType.CarryingOnStair, new PlayerCarryingOnStairState(this) },
+            { PlayerStateType.Waiting, new PlayerWaitingState(this) }
         };
     }
 
@@ -45,11 +44,11 @@ public class PlayerStateMachine : MonoBehaviour
         currentState?.UpdateState();
     }
 
-    // Handles transition from one player state to another
+     // Handles transition from one player state to another
     private void OnPlayerChangeState(PlayerStateType stateType)
     {
         if (!states.TryGetValue(stateType, out var newState)) return;
-
+        
         currentState?.ExitState();
         currentState = newState;
         CurrentStateType = stateType;
