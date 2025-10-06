@@ -21,7 +21,8 @@ public class PlayerStateMachine : MonoBehaviour
     private PlayerBaseState currentState;
     [SerializeField] private PlayerStateType CurrentStateType;
 
-    private Dictionary<PlayerStateType, PlayerBaseState> states;
+    private Dictionary<PlayerStateType, PlayerBaseState> states = new Dictionary<PlayerStateType, PlayerBaseState>();
+
     private void Awake()
     {
         playerController = GetComponent<PlayerController>();
@@ -44,11 +45,11 @@ public class PlayerStateMachine : MonoBehaviour
         currentState?.UpdateState();
     }
 
-     // Handles transition from one player state to another
+    // Handles transition from one player state to another
     private void OnPlayerChangeState(PlayerStateType stateType)
     {
         if (!states.TryGetValue(stateType, out var newState)) return;
-        
+
         currentState?.ExitState();
         currentState = newState;
         CurrentStateType = stateType;
