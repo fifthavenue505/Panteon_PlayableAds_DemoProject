@@ -20,20 +20,28 @@ public struct CustomerQueueDataContainer
 
 public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
 {
-    [Header("Queue Data")] [SerializeField] private List<CustomerQueueDataContainer> baggageQueueData;
-    [SerializeField] private List<CustomerQueueDataContainer> planeQueueData;
+    [Header("Queue Data")] [SerializeField]
+    private List<CustomerQueueDataContainer> baggageQueueData = new List<CustomerQueueDataContainer>();
+
+    [SerializeField] private List<CustomerQueueDataContainer> planeQueueData = new List<CustomerQueueDataContainer>();
 
     [Header("Customer Settings")] [SerializeField]
-    private List<CustomerController> customers;
+    private List<CustomerController> customers = new List<CustomerController>();
 
     [SerializeField] private Transform customerSpawnTransform;
     [SerializeField] private int customerCount = 6; // Number of customers to spawn
     [SerializeField] private float spawnDelay = 1f; // Delay between spawning
 
-    [Header("References")] [SerializeField] private StairAttachTrigger attachTrigger;
-    public StairAttachTrigger AttachTrigger => attachTrigger;
+    [Header("References")] [SerializeField]
+    private StairAttachTrigger attachTrigger;
 
-    private Dictionary<QueueType, List<CustomerQueueDataContainer>> queues;
+    public StairAttachTrigger AttachTrigger()
+    {
+        return attachTrigger;
+    }
+
+    private Dictionary<QueueType, List<CustomerQueueDataContainer>> queues =
+        new Dictionary<QueueType, List<CustomerQueueDataContainer>>();
 
     public List<CustomerController> GetCustomerList()
     {
@@ -78,7 +86,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
 
             customers.Add(customer);
 
-            baggage.transform.SetParent(customer.BaggageHoldPoint);
+            baggage.transform.SetParent(customer.BaggageHoldPoint());
             baggage.transform.localPosition = Vector3.zero;
 
             customer.AssignBaggage(baggage);
@@ -139,7 +147,7 @@ public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
                 var data = queueData[i];
                 data.IsInCorrectSpot = true;
                 queueData[i] = data;
-                
+
                 // Switch to idle state
                 EventManager.Broadcast(GameEvent.OnCustomerChangeState, customer.gameObject,
                     customer.GetIdleState(customer.HasBaggage));

@@ -7,8 +7,11 @@ public class PlayerBaggage : MonoBehaviour
     [Header("Baggage Stack")]
     [SerializeField] private Transform playerHandPoint;
 
-    [SerializeField] private List<Baggage> baggageStack = new();
-    public int BaggageCount => baggageStack.Count;
+    [SerializeField] private List<Baggage> baggageStack = new List<Baggage>();
+    public int BaggageCount()
+    {
+        return baggageStack.Count;
+    }
 
     [SerializeField] private Vector3 additionalRotation = Vector3.zero;
 

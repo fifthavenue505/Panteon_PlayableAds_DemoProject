@@ -15,9 +15,13 @@ public class Baggage : MonoBehaviour, IPoolable
         transform.SetParent(parent);
         transform.localRotation = Quaternion.identity;
         
-        transform.DOLocalJump(localOffset, data.JumpPower, 1, data.JumpDuration).OnComplete(() => SetParticlePlay(false));
-        transform.DOPunchScale(transform.localScale * 0.2f, data.JumpDuration);
-        transform.DOLocalRotate(Vector3.zero + rotationOffset, data.JumpDuration);
+        transform.DOLocalJump(localOffset, data.JumpPower(), 1, data.JumpDuration()).OnComplete(() =>
+        {
+            SetParticlePlay(false);
+        });
+        
+        transform.DOPunchScale(transform.localScale * 0.2f, data.JumpDuration());
+        transform.DOLocalRotate(Vector3.zero + rotationOffset, data.JumpDuration());
     }
 
     // Enables or disables the trail effect
@@ -40,6 +44,6 @@ public class Baggage : MonoBehaviour, IPoolable
 
     public float GetStackOffsetY()
     {
-        return data.StackOffsetY;
+        return data.StackOffsetY();
     }
 }

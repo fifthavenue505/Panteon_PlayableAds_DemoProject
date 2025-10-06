@@ -12,7 +12,10 @@ public class BaggageLift : MonoBehaviour
     [SerializeField] private Vector3 additionalRotation;
 
     private bool isBusy = false;
-    public bool IsBusy => isBusy;
+    public bool IsBusy()
+    {
+        return isBusy;
+    }
 
     private void Start()
     {

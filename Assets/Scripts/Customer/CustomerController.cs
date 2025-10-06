@@ -13,12 +13,15 @@ public class CustomerController : MonoBehaviour, IPoolable
     private CustomerColor customerColor;
 
     [Header("Movement Settings")]
-    [SerializeField] private List<Transform> positionsToMove = new();
+    [SerializeField] private List<Transform> positionsToMove = new List<Transform>();
 
     [Header("Baggage Settings")]
     [SerializeField] private Transform baggageHoldPoint;
     private Baggage baggage;
-    public Baggage Baggage => baggage;
+    public Baggage Baggage()
+    {
+        return baggage;
+    }
 
     [SerializeField] private bool hasBaggage = true;
 
@@ -28,7 +31,10 @@ public class CustomerController : MonoBehaviour, IPoolable
         set => hasBaggage = value;
     }
 
-    public Transform BaggageHoldPoint => baggageHoldPoint;
+    public Transform BaggageHoldPoint()
+    {
+        return baggageHoldPoint;
+    }
 
     // Assigns a new baggage object to the customer
     public void AssignBaggage(Baggage newBaggage)
@@ -70,12 +76,16 @@ public class CustomerController : MonoBehaviour, IPoolable
     }
 
     // Returns the correct movement state based on baggage
-    public CustomerStateType GetMoveState(bool hasBaggage) =>
-        hasBaggage ? CustomerStateType.MovingToBaggageQueue : CustomerStateType.MovingToPlaneQueue;
+    public CustomerStateType GetMoveState(bool hasBaggage)
+    {
+        return hasBaggage ? CustomerStateType.MovingToBaggageQueue : CustomerStateType.MovingToPlaneQueue;
+    }
 
     // Returns the correct idle state based on baggage
-    public CustomerStateType GetIdleState(bool hasBaggage) =>
-        hasBaggage ? CustomerStateType.IdleInBaggageQueue : CustomerStateType.IdleInPlaneQueue;
+    public CustomerStateType GetIdleState(bool hasBaggage)
+    {
+        return hasBaggage ? CustomerStateType.IdleInBaggageQueue : CustomerStateType.IdleInPlaneQueue;
+    }
 
     // Moves the customer through positions
     public void MoveThroughPositions(CustomerStateType newState)
@@ -127,7 +137,7 @@ public class CustomerController : MonoBehaviour, IPoolable
 
         foreach (var data in CustomerPathController.Instance.customerPathData)
         {
-            if (data.customerState == stateMachine.CurrentStateType)
+            if (data.customerState == stateMachine.CurrentStateType())
             {
                 if (data.PathPoints != null && data.PathPoints.Count > 0)
                     positionsToMove.AddRange(data.PathPoints);

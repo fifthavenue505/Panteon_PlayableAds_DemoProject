@@ -6,10 +6,16 @@ public class StairsController : MonoBehaviour
 {
     [Header("Stairs")]
     [SerializeField] private List<Transform> steps = new List<Transform>();
-    public List<Transform> Steps => steps;
+    public List<Transform> Steps()
+    {
+        return steps;
+    }
 
     [SerializeField] private Transform startPoint;
-    public Transform StartPoint => startPoint;
+    public Transform StartPoint()
+    {
+        return startPoint;
+    }
 
     [SerializeField] private Transform endPoint;
 
@@ -67,7 +73,7 @@ public class StairsController : MonoBehaviour
 
             if (child.TryGetComponent<PlayerStateMachine>(out var player))
             {
-                var hasBaggage = player.playerController._PlayerBaggage.BaggageCount > 0;
+                var hasBaggage = player.playerController._PlayerBaggage().BaggageCount() > 0;
                 var targetState = hasBaggage ? PlayerStateType.CarryingIdle : PlayerStateType.Idle;
                 EventManager.Broadcast(GameEvent.OnPlayerChangeState, targetState);
             }

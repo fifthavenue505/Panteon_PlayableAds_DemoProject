@@ -36,7 +36,7 @@ public class StairAttachTrigger : InteractableBase
 
         if (interactor.GetComponent<PlayerController>())
         {
-            interactor.transform.DOMove(stairsController.StartPoint.transform.position, 0.3f)
+            interactor.transform.DOMove(stairsController.StartPoint().transform.position, 0.3f)
                 .SetEase(Ease.Linear)
                 .OnComplete(() => { isMoving = false; });
             var direction = (stairsController.transform.position - interactor.transform.position).normalized;
@@ -58,7 +58,7 @@ public class StairAttachTrigger : InteractableBase
         {
             EventManager.Broadcast(
                 GameEvent.OnPlayerChangeState,
-                player.playerController._PlayerBaggage.BaggageCount > 0
+                player.playerController._PlayerBaggage().BaggageCount() > 0
                     ? PlayerStateType.CarryingOnStair
                     : PlayerStateType.IdleOnStair);
 
@@ -71,7 +71,7 @@ public class StairAttachTrigger : InteractableBase
     private void OnStepRecycled(Transform recycledStep)
     {
         if (!isMoving &&
-            recycledStep == stairsController.Steps[0].transform &&
+            recycledStep == stairsController.Steps()[0].transform &&
             currentInteractors.Count > 0)
         {
             var interactor = currentInteractors.Dequeue();

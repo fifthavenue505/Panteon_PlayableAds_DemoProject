@@ -9,7 +9,18 @@ public class BaggageData : ScriptableObject
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float jumpDuration = 0.5f;
 
-    public float StackOffsetY => stackOffsetY;
-    public float JumpPower => jumpPower;
-    public float JumpDuration => jumpDuration;
+    public float StackOffsetY()
+    {
+        return stackOffsetY;
+    }
+
+    public float JumpPower()
+    {
+        return jumpPower;
+    }
+
+    public float JumpDuration()
+    {
+        return jumpDuration;
+    }
 }

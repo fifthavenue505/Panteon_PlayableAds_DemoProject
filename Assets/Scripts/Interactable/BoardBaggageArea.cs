@@ -27,9 +27,9 @@ public class BoardBaggageArea : InteractableBase
         if (customerBoarded == maxCustomer)
             EventManager.Broadcast(GameEvent.OnTutorialStepCompleted);
 
-        if (nextCustomer.Baggage != null)
+        if (nextCustomer.Baggage() != null)
         {
-            interactor.GetComponent<PlayerBaggage>().AddBaggage(nextCustomer.Baggage);
+            interactor.GetComponent<PlayerBaggage>().AddBaggage(nextCustomer.Baggage());
             nextCustomer.HasBaggage = false;
         }
 

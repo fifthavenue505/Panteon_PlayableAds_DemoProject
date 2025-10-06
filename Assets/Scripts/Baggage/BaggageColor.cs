@@ -5,7 +5,7 @@ public class BaggageColor : MonoBehaviour
 {
     [SerializeField] private Renderer rend;
 
-    public List<Vector2> tilings = new();
+    public List<Vector2> tilings = new List<Vector2>();
 
     private MaterialPropertyBlock mpb; // Used to modify material properties
 

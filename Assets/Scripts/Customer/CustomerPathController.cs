@@ -11,5 +11,5 @@ public class CustomerPathController : SingletonManager<CustomerPathController>
         public List<Transform> PathPoints;
     }
     
-    public List<CustomerPathData> customerPathData;
+    public List<CustomerPathData> customerPathData = new List<CustomerPathData>();
 }

@@ -23,9 +23,12 @@ public class CustomerStateMachine : MonoBehaviour
     // State machine core
     private CustomerBaseState currentState; // Currently active state
     [SerializeField] private CustomerStateType currentStateType;
-    public CustomerStateType CurrentStateType => currentStateType;
+    public CustomerStateType CurrentStateType()
+    {
+        return currentStateType;
+    }
 
-    private Dictionary<CustomerStateType, CustomerBaseState> states;
+    private Dictionary<CustomerStateType, CustomerBaseState> states = new Dictionary<CustomerStateType, CustomerBaseState>();
 
     private void Awake()
     {

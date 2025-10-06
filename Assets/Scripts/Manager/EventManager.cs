@@ -24,7 +24,7 @@ public enum GameEvent
 
 public static class EventManager
 {
-    private static readonly Dictionary<GameEvent, Delegate> eventTable = new();
+    private static readonly Dictionary<GameEvent, Delegate> eventTable = new Dictionary<GameEvent, Delegate>();
 
     // -------------------------------
     // AddHandler (No param)

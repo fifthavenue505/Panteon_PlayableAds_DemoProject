@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public class MoneyArea : InteractableBase
 {
-    [SerializeField] private List<Transform> slotPoints; // Points where money objects will land
+    [SerializeField] private List<Transform> slotPoints = new List<Transform>(); // Points where money objects will land
     [SerializeField] private float jumpPower = 1f;
     [SerializeField] private float jumpDuration = 0.5f;
     [SerializeField] private float layerHeight = 0.5f;
@@ -63,14 +63,14 @@ public class MoneyArea : InteractableBase
         }
 
         SFXManager.Instance.Play(SFXType.MoneyCollect, 0f);
-        
+
         // Clear all active money
         activeMoney.Clear();
-        
+
         // Trigger tutorial progress when all money has been collected
         if (collectedMoneyCount == maxMoneyCount)
             EventManager.Broadcast(GameEvent.OnTutorialStepCompleted);
-        
+
         currentIndex = 0;
     }
 
@@ -91,7 +91,7 @@ public class MoneyArea : InteractableBase
 
             // Spawn a new money object at the customer's position
             var money = Factory.CreateMoney(customer.transform.position);
-            
+
             money.transform.localScale = Vector3.Scale(money.transform.localScale, newMoneyScale);
             money.transform.SetParent(transform, true);
 

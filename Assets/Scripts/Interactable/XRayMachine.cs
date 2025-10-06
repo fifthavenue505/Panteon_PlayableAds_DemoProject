@@ -18,7 +18,7 @@ public class XRayMachine : InteractableBase
         if (timer < interactCooldown) return;
 
         // Do not process if the lift is currently busy
-        if (baggageLift.IsBusy) return;
+        if (baggageLift.IsBusy()) return;
 
         // Attempt to take the next baggage from the input stack
         var baggage = xRayBaggageArea.RemoveBottomBaggage();

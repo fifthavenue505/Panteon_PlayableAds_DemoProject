@@ -14,7 +14,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask obstacleMask;
 
     [Header("References")] [SerializeField] private PlayerBaggage _playerBaggage;
-    public PlayerBaggage _PlayerBaggage => _playerBaggage;
+    public PlayerBaggage _PlayerBaggage()
+    {
+        return _playerBaggage;
+    }
+
     [SerializeField] private Camera mainCamera;
     [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private ParticleSystem trailParticle;

@@ -2,16 +2,11 @@ using UnityEngine;
 
 public class PlayerIdleState : PlayerBaseState
 {
-    public PlayerIdleState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, false);
     }
 
-    // Transition to walking when player starts moving
     public override void UpdateState()
     {
         if (player.playerController.HasMovementInput())
@@ -23,10 +18,6 @@ public class PlayerIdleState : PlayerBaseState
 
 public class PlayerWalkingState : PlayerBaseState
 {
-    public PlayerWalkingState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, true, false);
@@ -46,14 +37,6 @@ public class PlayerWalkingState : PlayerBaseState
 
 public class PlayerCarryingIdleState : PlayerBaseState
 {
-    public PlayerCarryingIdleState(PlayerStateMachine player) : base(player)
-    {
-        if (!player.playerController.HasMovementInput())
-        {
-            EventManager.Broadcast(GameEvent.OnPlayerChangeState, PlayerStateType.CarryingIdle);
-        }
-    }
-
     public override void EnterState()
     {
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, true);
@@ -70,10 +53,6 @@ public class PlayerCarryingIdleState : PlayerBaseState
 
 public class PlayerCarryingWalkingState : PlayerBaseState
 {
-    public PlayerCarryingWalkingState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, true, true);
@@ -91,10 +70,6 @@ public class PlayerCarryingWalkingState : PlayerBaseState
 
 public class PlayerCarryingOnStairState : PlayerBaseState
 {
-    public PlayerCarryingOnStairState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         // Set animation and disable player control during stair sequence
@@ -111,10 +86,6 @@ public class PlayerCarryingOnStairState : PlayerBaseState
 
 public class PlayerIdleOnStairState : PlayerBaseState
 {
-    public PlayerIdleOnStairState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         // Set animation and disable controls while on stairs
@@ -131,10 +102,6 @@ public class PlayerIdleOnStairState : PlayerBaseState
 
 public class PlayerWaitingState : PlayerBaseState
 {
-    public PlayerWaitingState(PlayerStateMachine player) : base(player)
-    {
-    }
-
     public override void EnterState()
     {
         EventManager.Broadcast(GameEvent.OnSetPlayerAnimation, false, false);

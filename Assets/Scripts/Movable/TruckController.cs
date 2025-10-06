@@ -13,7 +13,7 @@ public class TruckController : MonoBehaviour
     private Vector3 startPos;
     [SerializeField] private float moveDuration = 3f;
 
-    private readonly List<Baggage> baggageList = new();
+    private readonly List<Baggage> baggageList = new List<Baggage>();
 
     private void Start()
     {

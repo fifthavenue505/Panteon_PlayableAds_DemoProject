@@ -25,7 +25,7 @@ public class ElementsActivator : InteractableBase
     [SerializeField] private bool isReady;
     
     [Header("Open Sequence")] 
-    [SerializeField] private List<Transform> targets;
+    [SerializeField] private List<Transform> targets=new List<Transform>();
     [SerializeField] private float eachScaleDuration = 0.25f;
     [SerializeField] private float betweenDelay = 0.07f;
     private bool sequenceStarted;

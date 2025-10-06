@@ -8,7 +8,7 @@ public class XRayBaggageArea : InteractableBase
     [SerializeField] private float interactCooldown = 0.5f;
     [SerializeField] private Vector3 additionalRotation = new Vector3(0, 180, 0); // Extra rotation applied to baggage for alignment
 
-    [SerializeField] private List<Baggage> baggageList = new();
+    [SerializeField] private List<Baggage> baggageList = new List<Baggage>();
 
     private float timer = 0f;
     [SerializeField] private int passedBaggageCount;

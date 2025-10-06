@@ -35,7 +35,7 @@ public class SFXManager : SingletonManager<SFXManager>
     [SerializeField, Range(0.1f, 2f)] private float currentPitch = 1f;
     [SerializeField] private float defaultPitch = 1f;
 
-    private Dictionary<SFXType, SFXData> sfxDict;
+    private Dictionary<SFXType, SFXData> sfxDict= new Dictionary<SFXType, SFXData>();
 
     protected override void Awake()
     {
@@ -46,6 +46,7 @@ public class SFXManager : SingletonManager<SFXManager>
 
         // Initialize dictionary
         sfxDict = new Dictionary<SFXType, SFXData>();
+        
         foreach (var sfx in sfxList)
         {
             if (!sfxDict.ContainsKey(sfx.type))

@@ -8,7 +8,7 @@ public class CustomerData : ScriptableObject
     [Min(0.1f)] public float speed = 5f;
 
     [Header("Color Variants")]
-    public List<Vector2> skinTilings = new();
-    public List<Vector2> shirtTilings = new();
-    public List<Vector2> pantTilings = new();
+    public List<Vector2> skinTilings = new List<Vector2>();
+    public List<Vector2> shirtTilings = new List<Vector2>();
+    public List<Vector2> pantTilings = new List<Vector2>();
 }
