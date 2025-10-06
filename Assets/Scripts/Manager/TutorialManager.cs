@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 
 public class TutorialManager : SingletonManager<TutorialManager>
 {
@@ -14,7 +13,7 @@ public class TutorialManager : SingletonManager<TutorialManager>
         public bool shouldHighlight;
     }
 
-    [Title("Tutorial Settings")] [SerializeField]
+    [Header("Tutorial Settings")] [SerializeField]
     private List<TutorialStep> steps = new List<TutorialStep>();
 
     [SerializeField] private Transform playerArrow;

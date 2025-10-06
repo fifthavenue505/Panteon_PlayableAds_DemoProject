@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -14,7 +13,7 @@ public class MoneyArea : InteractableBase
     [SerializeField] private float layerHeight = 0.5f;
     [SerializeField] private Vector3 newMoneyScale = new Vector3(1.75f, 6f, 1.75f);
 
-    [Title("Tutorial")] [SerializeField] private int collectedMoneyCount = 0;
+    [Header("Tutorial")] [SerializeField] private int collectedMoneyCount = 0;
     [SerializeField] private int maxMoneyCount = 12;
 
 
@@ -111,11 +110,11 @@ public class MoneyArea : InteractableBase
 
     private void OnEnable()
     {
-        EventManager.AddHandler<Action<CustomerController>>(GameEvent.OnCustomerBoard, OnCustomerBoard);
+        EventManager.AddHandler<CustomerController>(GameEvent.OnCustomerBoard, OnCustomerBoard);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler<Action<CustomerController>>(GameEvent.OnCustomerBoard, OnCustomerBoard);
+        EventManager.RemoveHandler<CustomerController>(GameEvent.OnCustomerBoard, OnCustomerBoard);
     }
 }

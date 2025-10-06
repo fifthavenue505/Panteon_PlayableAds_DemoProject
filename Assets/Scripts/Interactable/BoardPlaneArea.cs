@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class BoardPlaneArea : InteractableBase
@@ -6,7 +5,7 @@ public class BoardPlaneArea : InteractableBase
     private float stayTimer;
     [SerializeField] private float stayInterval = 0.5f;
 
-    [Title("Tutorial")] [SerializeField] private int customerBoarded = 0;
+    [Header("Tutorial")] [SerializeField] private int customerBoarded = 0;
     [SerializeField] private int maxCustomer = 6;
 
     public override void InteractStay(GameObject interactor)

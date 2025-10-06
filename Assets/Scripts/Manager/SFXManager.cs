@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum SFXType
@@ -15,31 +14,26 @@ public enum SFXType
 [Serializable]
 public struct SFXData
 {
-    [HorizontalGroup("Row", Width = 100)] [HideLabel]
     public SFXType type;
 
-    [HorizontalGroup("Row", Width = 160)] [HideLabel]
-    [HorizontalGroup("Row")]
     public AudioClip clip;
 
-    [HorizontalGroup("Row", Width = 100)]
     [Range(0f, 1f)]
     public float volume;
 
-    [HorizontalGroup("Row", Width = 100)]
     [Range(0.5f, 2f)]
     public float pitch;
 }
 
 public class SFXManager : SingletonManager<SFXManager>
 {
-    [Title("SFX Settings")]
+    [Header("SFX Settings")]
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private List<SFXData> sfxList = new List<SFXData>();
 
-    [Title("Pitch Controls")]
+    [Header("Pitch Controls")]
     [SerializeField, Range(0.1f, 2f)] private float currentPitch = 1f;
-    [ReadOnly, SerializeField] private float defaultPitch = 1f;
+    [SerializeField] private float defaultPitch = 1f;
 
     private Dictionary<SFXType, SFXData> sfxDict;
 

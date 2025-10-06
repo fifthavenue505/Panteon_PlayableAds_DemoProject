@@ -1,6 +1,5 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 
 public class BaggageColor : MonoBehaviour
 {
@@ -16,7 +15,6 @@ public class BaggageColor : MonoBehaviour
         mpb = new MaterialPropertyBlock();
     }
 
-    [Button]
     // Applies a random texture tiling offset to the baggage
     public void ApplyRandomColor()
     {

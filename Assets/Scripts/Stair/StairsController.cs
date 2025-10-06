@@ -1,24 +1,20 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class StairsController : MonoBehaviour
 {
-    [Title("Stairs")]
-    [SerializeField] private List<Transform> steps = new();
+    [Header("Stairs")]
+    [SerializeField] private List<Transform> steps = new List<Transform>();
     public List<Transform> Steps => steps;
 
-    [HorizontalGroup("Points", Width = 0.5f)]
-    [BoxGroup("Points/Start"), HideLabel]
     [SerializeField] private Transform startPoint;
     public Transform StartPoint => startPoint;
 
-    [BoxGroup("Points/End"), HideLabel]
     [SerializeField] private Transform endPoint;
 
-    [Title("Settings")]
-    [SerializeField, MinValue(0.1f)] private float stepSpeed = 3f;
+    [Header("Settings")]
+    [SerializeField] private float stepSpeed = 3f;
 
     private Vector3 direction;
     private float totalDistance;
@@ -105,7 +101,6 @@ public class StairsController : MonoBehaviour
     }
 
     // Align steps evenly between start and end points
-    [Button]
     public void AlignStepsEvenly()
     {
         if (steps.Count < 2) return;
@@ -122,7 +117,6 @@ public class StairsController : MonoBehaviour
         }
     }
 
-    [Button]
     public void ReverseSteps()
     {
         steps.Reverse();

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using DG.Tweening;
 
@@ -9,12 +8,12 @@ public class XRayBaggageArea : InteractableBase
     [SerializeField] private float interactCooldown = 0.5f;
     [SerializeField] private Vector3 additionalRotation = new Vector3(0, 180, 0); // Extra rotation applied to baggage for alignment
 
-    [ReadOnly, SerializeField] private List<Baggage> baggageList = new();
+    [SerializeField] private List<Baggage> baggageList = new();
 
     private float timer = 0f;
     [SerializeField] private int passedBaggageCount;
     
-    [Title("Tutorial")]
+    [Header("Tutorial")]
     private int maxBaggageCount = 6;
 
     public override void InteractStay(GameObject interactor)

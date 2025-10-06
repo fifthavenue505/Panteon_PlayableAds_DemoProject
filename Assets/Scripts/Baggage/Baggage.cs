@@ -1,11 +1,10 @@
 using System;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class Baggage : MonoBehaviour, IPoolable
 {
-    [Title("Data")] [SerializeField] private BaggageData data;
+    [Header("Data")] [SerializeField] private BaggageData data;
     [SerializeField] private BaggageColor _baggageColor;
     [SerializeField] private TrailRenderer _baggageTrail;
 

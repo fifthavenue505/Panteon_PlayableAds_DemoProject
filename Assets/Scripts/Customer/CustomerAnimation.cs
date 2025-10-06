@@ -27,11 +27,11 @@ public class CustomerAnimation : MonoBehaviour
     
     private void OnEnable()
     {
-        EventManager.AddHandler<Action<GameObject, bool, bool>>(GameEvent.OnSetCustomerAnimation, OnSetCustomerAnimation);
+        EventManager.AddHandler<GameObject, bool, bool>(GameEvent.OnSetCustomerAnimation, OnSetCustomerAnimation);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler<Action<GameObject, bool, bool>>(GameEvent.OnSetCustomerAnimation, OnSetCustomerAnimation);
+        EventManager.RemoveHandler<GameObject, bool, bool>(GameEvent.OnSetCustomerAnimation, OnSetCustomerAnimation);
     }
 }

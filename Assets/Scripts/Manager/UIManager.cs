@@ -1,6 +1,5 @@
 using System;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,19 +7,19 @@ using UnityEngine.UI;
 
 public class UIManager : SingletonManager<UIManager>
 {
-    [Title("Money")] [SerializeField] private TextMeshProUGUI moneyText;
+    [Header("Money")] [SerializeField] private TextMeshProUGUI moneyText;
     [SerializeField] private GameObject moneyUiParent;
 
-    [Title("Joystick")] [SerializeField] private FloatingJoystick joystick;
+    [Header("Joystick")] [SerializeField] private FloatingJoystick joystick;
     [SerializeField] private GameObject joystickBackground;
 
-    [Title("Brush")] [SerializeField] private GameObject boardUiSystem;
-    [Title("Brush")] [SerializeField] private GameObject finishPaintUiSystem;
+    [Header("Brush")] [SerializeField] private GameObject boardUiSystem;
+    [Header("Brush")] [SerializeField] private GameObject finishPaintUiSystem;
     [SerializeField] private MeshPainter painter;
     [SerializeField] private Slider brushSizeSlider;
     [SerializeField] private TextMeshProUGUI paintProgressText;
 
-    [Title("Color Buttons")] [SerializeField]
+    [Header("Color Buttons")] [SerializeField]
     private Button[] colorButtons;
 
     [SerializeField] private Color[] brushColors =
@@ -62,18 +61,18 @@ public class UIManager : SingletonManager<UIManager>
 
     private void OnEnable()
     {
-        EventManager.AddHandler(GameEvent.OnUpdateMoney, (Action)OnUpdateMoney);
-        EventManager.AddHandler(GameEvent.OnBoardActivated, (Action)OnBoardActivated);
-        EventManager.AddHandler<Action<float>>(GameEvent.OnPaintProgressUpdated, OnPaintProgressUpdated);
-        EventManager.AddHandler<Action>(GameEvent.OnPaintCompleted, OnPaintCompleted);
+        EventManager.AddHandler(GameEvent.OnUpdateMoney, OnUpdateMoney);
+        EventManager.AddHandler(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.AddHandler<float>(GameEvent.OnPaintProgressUpdated, OnPaintProgressUpdated);
+        EventManager.AddHandler(GameEvent.OnPaintCompleted, OnPaintCompleted);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler(GameEvent.OnUpdateMoney, (Action)OnUpdateMoney);
-        EventManager.RemoveHandler(GameEvent.OnBoardActivated, (Action)OnBoardActivated);
-        EventManager.RemoveHandler<Action<float>>(GameEvent.OnPaintProgressUpdated, OnPaintProgressUpdated);
-        EventManager.RemoveHandler<Action>(GameEvent.OnPaintCompleted, OnPaintCompleted);
+        EventManager.RemoveHandler(GameEvent.OnUpdateMoney, OnUpdateMoney);
+        EventManager.RemoveHandler(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.RemoveHandler<float>(GameEvent.OnPaintProgressUpdated, OnPaintProgressUpdated);
+        EventManager.RemoveHandler(GameEvent.OnPaintCompleted, OnPaintCompleted);
     }
 
     // Updates the money text

@@ -1,0 +1,20 @@
+public enum GameEvent
+{
+	OnPlayerChangeState,
+	OnCustomerChangeState,
+	OnEnvironmentElementsActivated,
+	OnBoardActivated,
+	OnUpdateMoney,
+	OnBringInCustomers,
+	OnCustomerBoard,
+	OnCustomerEnterPlane,
+	OnMovePlane,
+	OnSetPlayerAnimation,
+	OnSetCustomerAnimation,
+	OnStepRecycled,
+	OnPaintProgressUpdated,
+	OnPaintCompleted,
+	OnBrushSizeChanged,
+	OnTruckArrive,
+	OnTutorialStepCompleted
+}

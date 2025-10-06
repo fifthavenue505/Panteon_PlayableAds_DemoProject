@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public enum QueueType
@@ -14,24 +13,24 @@ public enum QueueType
 [Serializable]
 public struct CustomerQueueDataContainer
 {
-    [HorizontalGroup("Queue")] [HideLabel] public Transform QueuePoint;
-    [HorizontalGroup("Queue")] [HideLabel] public CustomerController CustomerInQueue;
-    [HorizontalGroup("Queue")] public bool IsInCorrectSpot;
+    public Transform QueuePoint;
+    public CustomerController CustomerInQueue;
+    public bool IsInCorrectSpot;
 }
 
 public class CustomerSystemManager : SingletonManager<CustomerSystemManager>
 {
-    [Title("Queue Data")] [SerializeField] private List<CustomerQueueDataContainer> baggageQueueData;
+    [Header("Queue Data")] [SerializeField] private List<CustomerQueueDataContainer> baggageQueueData;
     [SerializeField] private List<CustomerQueueDataContainer> planeQueueData;
 
-    [Title("Customer Settings")] [SerializeField]
+    [Header("Customer Settings")] [SerializeField]
     private List<CustomerController> customers;
 
     [SerializeField] private Transform customerSpawnTransform;
     [SerializeField] private int customerCount = 6; // Number of customers to spawn
     [SerializeField] private float spawnDelay = 1f; // Delay between spawning
 
-    [Title("References")] [SerializeField] private StairAttachTrigger attachTrigger;
+    [Header("References")] [SerializeField] private StairAttachTrigger attachTrigger;
     public StairAttachTrigger AttachTrigger => attachTrigger;
 
     private Dictionary<QueueType, List<CustomerQueueDataContainer>> queues;

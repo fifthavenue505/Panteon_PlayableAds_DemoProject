@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-// Each event can be broadcast and listened to by multiple components
 public enum GameEvent
 {
     OnPlayerChangeState,
@@ -25,11 +24,12 @@ public enum GameEvent
 
 public static class EventManager
 {
-    // Dictionary that maps each event type
     private static readonly Dictionary<GameEvent, Delegate> eventTable = new();
 
-    // Registers a new event handler for the specified event type
-    public static void AddHandler<TDelegate>(GameEvent evt, TDelegate handler) where TDelegate : Delegate
+    // -------------------------------
+    // AddHandler (No param)
+    // -------------------------------
+    public static void AddHandler(GameEvent evt, Action handler)
     {
         if (eventTable.TryGetValue(evt, out var existing))
             eventTable[evt] = Delegate.Combine(existing, handler);
@@ -37,8 +37,43 @@ public static class EventManager
             eventTable[evt] = handler;
     }
 
-     // Removes a specific handler from the specified event
-    public static void RemoveHandler<TDelegate>(GameEvent evt, TDelegate handler) where TDelegate : Delegate
+    // -------------------------------
+    // AddHandler (1 param)
+    // -------------------------------
+    public static void AddHandler<T>(GameEvent evt, Action<T> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+            eventTable[evt] = Delegate.Combine(existing, handler);
+        else
+            eventTable[evt] = handler;
+    }
+
+    // -------------------------------
+    // AddHandler (2 params)
+    // -------------------------------
+    public static void AddHandler<T1, T2>(GameEvent evt, Action<T1, T2> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+            eventTable[evt] = Delegate.Combine(existing, handler);
+        else
+            eventTable[evt] = handler;
+    }
+
+    // -------------------------------
+    // AddHandler (3 params)
+    // -------------------------------
+    public static void AddHandler<T1, T2, T3>(GameEvent evt, Action<T1, T2, T3> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+            eventTable[evt] = Delegate.Combine(existing, handler);
+        else
+            eventTable[evt] = handler;
+    }
+
+    // -------------------------------
+    // RemoveHandler (No param)
+    // -------------------------------
+    public static void RemoveHandler(GameEvent evt, Action handler)
     {
         if (eventTable.TryGetValue(evt, out var existing))
         {
@@ -48,10 +83,90 @@ public static class EventManager
         }
     }
 
-    // Broadcasts an event to all subscribed listeners
-    public static void Broadcast(GameEvent evt, params object[] args)
+    // -------------------------------
+    // RemoveHandler (1 param)
+    // -------------------------------
+    public static void RemoveHandler<T>(GameEvent evt, Action<T> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+        {
+            var current = Delegate.Remove(existing, handler);
+            if (current == null) eventTable.Remove(evt);
+            else eventTable[evt] = current;
+        }
+    }
+
+    // -------------------------------
+    // RemoveHandler (2 params)
+    // -------------------------------
+    public static void RemoveHandler<T1, T2>(GameEvent evt, Action<T1, T2> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+        {
+            var current = Delegate.Remove(existing, handler);
+            if (current == null) eventTable.Remove(evt);
+            else eventTable[evt] = current;
+        }
+    }
+
+    // -------------------------------
+    // RemoveHandler (3 params)
+    // -------------------------------
+    public static void RemoveHandler<T1, T2, T3>(GameEvent evt, Action<T1, T2, T3> handler)
+    {
+        if (eventTable.TryGetValue(evt, out var existing))
+        {
+            var current = Delegate.Remove(existing, handler);
+            if (current == null) eventTable.Remove(evt);
+            else eventTable[evt] = current;
+        }
+    }
+
+    // -------------------------------
+    // Broadcast (No param)
+    // -------------------------------
+    public static void Broadcast(GameEvent evt)
     {
         if (eventTable.TryGetValue(evt, out var del))
-            del.DynamicInvoke(args);
+        {
+            if (del is Action action)
+                action.Invoke();
+        }
+    }
+
+    // -------------------------------
+    // Broadcast (1 param)
+    // -------------------------------
+    public static void Broadcast<T>(GameEvent evt, T arg)
+    {
+        if (eventTable.TryGetValue(evt, out var del))
+        {
+            if (del is Action<T> action)
+                action.Invoke(arg);
+        }
+    }
+
+    // -------------------------------
+    // Broadcast (2 params)
+    // -------------------------------
+    public static void Broadcast<T1, T2>(GameEvent evt, T1 arg1, T2 arg2)
+    {
+        if (eventTable.TryGetValue(evt, out var del))
+        {
+            if (del is Action<T1, T2> action)
+                action.Invoke(arg1, arg2);
+        }
+    }
+
+    // -------------------------------
+    // Broadcast (3 params)
+    // -------------------------------
+    public static void Broadcast<T1, T2, T3>(GameEvent evt, T1 arg1, T2 arg2, T3 arg3)
+    {
+        if (eventTable.TryGetValue(evt, out var del))
+        {
+            if (del is Action<T1, T2, T3> action)
+                action.Invoke(arg1, arg2, arg3);
+        }
     }
 }

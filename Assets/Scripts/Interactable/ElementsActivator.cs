@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using TMPro;
 
 enum ElementsActivatorType
@@ -18,20 +17,20 @@ public class ElementsActivator : InteractableBase
     private GameManager gameManager;
     private SFXManager sfxManager;
 
-    [Title("Fill Settings")] 
+    [Header("Fill Settings")] 
     [SerializeField] private Image iconImage;
     [SerializeField] private Image fillImage;
     [SerializeField] private Image moneyImage;
     [SerializeField] private GameObject arrowMark;
     [SerializeField] private bool isReady;
     
-    [Title("Open Sequence")] 
+    [Header("Open Sequence")] 
     [SerializeField] private List<Transform> targets;
     [SerializeField] private float eachScaleDuration = 0.25f;
     [SerializeField] private float betweenDelay = 0.07f;
     private bool sequenceStarted;
 
-    [Title("Money Settings")] 
+    [Header("Money Settings")] 
     [SerializeField] private int cost = 50;
     [SerializeField] private float payPerSecond = 10f;
     [SerializeField] private Collider interactCollider;
@@ -39,12 +38,12 @@ public class ElementsActivator : InteractableBase
     [SerializeField] private TextMeshProUGUI moneyValueText;
     [SerializeField] private bool setTargetsScaleZeroOnStart = true;
 
-    [Title("Type")] 
+    [Header("Type")] 
     [SerializeField] private ElementsActivatorType activatorType;
 
-    [Title("Colors")] 
+    [Header("Colors")] 
     [SerializeField] private Color enabledColor = Color.white;
-    [SerializeField] private Color disabledColor = new(1f, 1f, 1f, 0.4f);
+    [SerializeField] private Color disabledColor = new Color(1f, 1f, 1f, 0.4f);
     [SerializeField] private Transform playerMovePos;
 
     private void Awake()

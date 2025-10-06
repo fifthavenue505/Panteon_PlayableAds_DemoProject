@@ -2,21 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class CustomerController : MonoBehaviour, IPoolable
 {
     [SerializeField] private CustomerData data; // ScriptableObject that stores base stats
     
-    [SerializeField, ReadOnly] private float speed;
+    [SerializeField] private float speed;
     private CustomerStateMachine stateMachine;
     private CustomerColor customerColor;
 
-    [Title("Movement Settings")]
-    [ReadOnly, SerializeField] private List<Transform> positionsToMove = new();
+    [Header("Movement Settings")]
+    [SerializeField] private List<Transform> positionsToMove = new();
 
-    [Title("Baggage Settings")]
+    [Header("Baggage Settings")]
     [SerializeField] private Transform baggageHoldPoint;
     private Baggage baggage;
     public Baggage Baggage => baggage;

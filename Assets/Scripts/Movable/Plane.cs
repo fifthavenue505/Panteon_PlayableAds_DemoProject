@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 
@@ -18,7 +17,7 @@ public class Plane : MonoBehaviour
 
     [SerializeField] private bool isReady;
 
-    [Title("Settings")] [SerializeField] private float backDuration = 1.2f;
+    [Header("Settings")] [SerializeField] private float backDuration = 1.2f;
     [SerializeField] private float rotateDuration = 0.5f;
     [SerializeField] private float forwardDuration = 2f;
 
@@ -45,7 +44,6 @@ public class Plane : MonoBehaviour
     }
 
     // Animates the plane
-    [Button]
     private void OnMovePlane()
     {
         if (seq != null && seq.IsActive()) seq.Kill();

@@ -18,14 +18,14 @@ public class CameraManager : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.AddHandler<Action>(GameEvent.OnBringInCustomers, OnBringInCustomers);
-        EventManager.AddHandler<Action>(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.AddHandler(GameEvent.OnBringInCustomers, OnBringInCustomers);
+        EventManager.AddHandler(GameEvent.OnBoardActivated, OnBoardActivated);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler<Action>(GameEvent.OnBringInCustomers, OnBringInCustomers);
-        EventManager.RemoveHandler<Action>(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.RemoveHandler(GameEvent.OnBringInCustomers, OnBringInCustomers);
+        EventManager.RemoveHandler(GameEvent.OnBoardActivated, OnBoardActivated);
     }
 
     private void OnBringInCustomers()

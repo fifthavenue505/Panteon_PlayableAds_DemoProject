@@ -1,11 +1,10 @@
 using System;
-using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class MeshPainter : MonoBehaviour
 {
-    [Title("References")] [SerializeField]
+    [Header("References")] [SerializeField]
     private Camera cam;
 
     [SerializeField] private Material paintMaterial;
@@ -14,12 +13,12 @@ public class MeshPainter : MonoBehaviour
     [SerializeField] private LayerMask boardLayerMask;
     [SerializeField] private ParticleSystem confettiParticle;
 
-    [Title("Brush Settings")] [SerializeField]
+    [Header("Brush Settings")] [SerializeField]
     private Color paintColor = Color.red;
 
     [SerializeField] private float brushSize = 0.05f;
 
-    [Title("Hit Indicator")] [SerializeField]
+    [Header("Hit Indicator")] [SerializeField]
     private GameObject hitIndicator;
 
     [SerializeField] private Vector3 offset = Vector3.up * 0.01f;
@@ -150,13 +149,13 @@ public class MeshPainter : MonoBehaviour
 
     private void OnEnable()
     {
-        EventManager.AddHandler<Action<float>>(GameEvent.OnBrushSizeChanged, OnBrushSizeChanged);
-        EventManager.AddHandler<Action>(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.AddHandler<float>(GameEvent.OnBrushSizeChanged, OnBrushSizeChanged);
+        EventManager.AddHandler(GameEvent.OnBoardActivated, OnBoardActivated);
     }
 
     private void OnDisable()
     {
-        EventManager.RemoveHandler<Action<float>>(GameEvent.OnBrushSizeChanged, OnBrushSizeChanged);
-        EventManager.RemoveHandler<Action>(GameEvent.OnBoardActivated, OnBoardActivated);
+        EventManager.RemoveHandler<float>(GameEvent.OnBrushSizeChanged, OnBrushSizeChanged);
+        EventManager.RemoveHandler(GameEvent.OnBoardActivated, OnBoardActivated);
     }
 }

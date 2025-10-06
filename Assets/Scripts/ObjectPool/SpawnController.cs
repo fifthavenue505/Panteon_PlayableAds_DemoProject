@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 [Serializable]
 public struct PoolPrefabContainer
 {
-    [HorizontalGroup("PoolPrefab")] [HideLabel] public PoolPrefabType PoolType;
-    [HorizontalGroup("PoolPrefab")] [HideLabel] public GameObject Prefab;
-    [HorizontalGroup("PoolPrefab")] [HideLabel] public Transform Parent;
-    [HorizontalGroup("PoolPrefab")] [HideLabel] public int PoolSize;
+    public PoolPrefabType PoolType;
+    public GameObject Prefab;
+    public Transform Parent;
+    public int PoolSize;
 }
 
 public enum PoolPrefabType

@@ -1,19 +1,18 @@
 using System.Collections.Generic;
 using DG.Tweening;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerBaggage : MonoBehaviour
 {
-    [Title("Baggage Stack")]
+    [Header("Baggage Stack")]
     [SerializeField] private Transform playerHandPoint;
 
-    [ReadOnly, SerializeField] private List<Baggage> baggageStack = new();
+    [SerializeField] private List<Baggage> baggageStack = new();
     public int BaggageCount => baggageStack.Count;
 
     [SerializeField] private Vector3 additionalRotation = Vector3.zero;
 
-    [Title("Baggage Movement")]
+    [Header("Baggage Movement")]
     [SerializeField] private float baseMoveOffset = 0.05f;
     [SerializeField] private float moveDuration = 0.15f;
 

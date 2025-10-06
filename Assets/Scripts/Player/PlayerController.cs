@@ -1,20 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [Title("Movement Settings")] [SerializeField]
+    [Header("Movement Settings")] [SerializeField]
     private float moveSpeed = 5f;
 
-    [Title("Obstacle Detection")] [SerializeField]
+    [Header("Obstacle Detection")] [SerializeField]
     private float rayDistance = 1f;
 
     [SerializeField] private LayerMask obstacleMask;
 
-    [Title("References")] [SerializeField] private PlayerBaggage _playerBaggage;
+    [Header("References")] [SerializeField] private PlayerBaggage _playerBaggage;
     public PlayerBaggage _PlayerBaggage => _playerBaggage;
     [SerializeField] private Camera mainCamera;
     [SerializeField] private FloatingJoystick joystick;

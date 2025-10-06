@@ -1,4 +1,3 @@
-using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class BoardBaggageArea : InteractableBase
@@ -6,7 +5,7 @@ public class BoardBaggageArea : InteractableBase
     private float stayTimer;
     [SerializeField] private float stayInterval = 0.5f;
     
-    [Title("Tutorial")]
+    [Header("Tutorial")]
     [SerializeField] private int customerBoarded = 0;
     [SerializeField] private int maxCustomer = 6;
 
